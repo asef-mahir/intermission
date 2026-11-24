@@ -422,11 +422,12 @@ All decisions are resolved:
 - **D6** host access is revoked on per-site off/remove; implemented.
 - **REL-06**, **REL-07**, and **REL-11** are implemented.
 
+The release is committed and pushed to `main` as `57dbc71`. The store package is `dist/intermission-1.0.0.zip` (302,357 bytes, 17 files; SHA-256 `D18E59B0BC9BD004263A1E5A1136CB7FFFF93DF2305D55A9E112AF750337D805`).
+
 Remaining external actions:
 
 1. Enable GitHub Pages for `asef-mahir/focus-friend` from `main` / `docs` and confirm the two URLs load.
 2. Run the optional real-site spot checks (GitHub, X, YouTube, Google).
-3. Rebuild the ZIP and commit the release.
-4. Upload the ZIP and listing in the Chrome Web Store dashboard and submit for review.
+3. Upload the ZIP and listing in the Chrome Web Store dashboard and submit for review.
 
 The locked behavior in section 6 remains unchanged.
