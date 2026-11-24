@@ -27,8 +27,8 @@ The policy is a static page at `docs/privacy.html`. The repository already has a
 3. Set **Source** to **Deploy from a branch**.
 4. Choose the `main` branch and the `/docs` folder.
 5. Save. The URLs become:
-   - `https://asef-mahir.github.io/focus-friend/`
-   - `https://asef-mahir.github.io/focus-friend/privacy.html`
+   - `https://asef-mahir.github.io/intermission/`
+   - `https://asef-mahir.github.io/intermission/privacy.html`
 
 If the repository is private, GitHub Pages requires a plan that supports private Pages, or the repository must be public. The store review needs the policy URL to be publicly reachable without a login.
 

@@ -59,7 +59,7 @@ The build script checks manifest references, JSON, icon dimensions, content-bank
 - Cooldowns, daily counters, voice history, active-time totals, and the consent version are stored in `chrome.storage.local`.
 - Page content and vent text are not stored or transmitted.
 - The extension does not send browsing data to the developer, use analytics, or sell data.
-- The full policy is at <https://asef-mahir.github.io/focus-friend/privacy.html>. The options page shows the disclosure before any site access and stores `onboarding_consent_version` in local storage.
+- The full policy is at <https://asef-mahir.github.io/intermission/privacy.html>. The options page shows the disclosure before any site access and stores `onboarding_consent_version` in local storage.
 - Incognito is not supported in `1.0`.
 
 ## Known limitations

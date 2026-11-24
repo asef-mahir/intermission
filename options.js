@@ -5,7 +5,7 @@ const copyByLanguage = {
 
 const CONSENT_VERSION = 1;
 const CONSENT_KEY = "onboarding_consent_version";
-const PRIVACY_URL = "https://asef-mahir.github.io/focus-friend/privacy.html";
+const PRIVACY_URL = "https://asef-mahir.github.io/intermission/privacy.html";
 
 let settings;
 let copy;

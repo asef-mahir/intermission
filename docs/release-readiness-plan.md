@@ -349,7 +349,7 @@ All tests ran against the current `1.0.0` runtime in an isolated Chrome 158 prof
 | D1 | Final product name | **Decided: Intermission** | Applied to the manifest, popup, options, language banks, README, and package. Use the same name in the store listing and privacy policy. | Done |
 | D2 | Fact content | **Decided: facts are checked** | All 175 items in both banks were confirmed checked; the `needs_verify` flags were removed. No copy rewrite. | Done |
 | D3 | Default language | **Decided: browser language** | New installs follow the browser UI language, fall back to English, and see an explicit language choice in the first-run disclosure. Existing saved choices are preserved. | Done |
-| D4 | Privacy policy host | **Decided: GitHub Pages** | Policy is at `docs/privacy.html`; enable Pages from `main` / `docs` to publish `https://asef-mahir.github.io/focus-friend/privacy.html`. | REL-06, REL-07 |
+| D4 | Privacy policy host | **Decided: GitHub Pages** | Policy is at `docs/privacy.html`; enable Pages from `main` / `docs` to publish `https://asef-mahir.github.io/intermission/privacy.html`. | REL-06, REL-07 |
 | D5 | Incognito | **Decided: not supported** | Documented in the README, listing, and policy. | Done |
 | D6 | Host access after site removal | **Decided: revoke** | Per-site off and remove call `chrome.permissions.remove`; re-enabling requests access again. Global off is documented separately. | Done |
 

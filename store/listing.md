@@ -10,9 +10,9 @@ Use this file to fill the Chrome Web Store dashboard. Copy is final unless a fac
 | Short description | Show a short pause before the sites you choose. Breathe, read something odd, and get back to what you meant to do. |
 | Category | Productivity (alternative: Health & Fitness) |
 | Languages | English, Bengali (বাংলা) |
-| Homepage | https://asef-mahir.github.io/focus-friend/ |
-| Support | https://github.com/asef-mahir/focus-friend/issues |
-| Privacy policy | https://asef-mahir.github.io/focus-friend/privacy.html |
+| Homepage | https://asef-mahir.github.io/intermission/ |
+| Support | https://github.com/asef-mahir/intermission/issues |
+| Privacy policy | https://asef-mahir.github.io/intermission/privacy.html |
 | Incognito | Not supported in 1.0 |
 | Remote code | No. All JavaScript and copy are packaged. |
 
@@ -40,7 +40,7 @@ WHAT IT DOESN'T DO
 • Not a medical or therapeutic service.
 
 PRIVACY
-Intermission stores your settings in Chrome storage and keeps small counters on your device. It asks for access only to the sites you turn on. Removing or turning off a site gives that access back. Read the full policy at https://asef-mahir.github.io/focus-friend/privacy.html.
+Intermission stores your settings in Chrome storage and keeps small counters on your device. It asks for access only to the sites you turn on. Removing or turning off a site gives that access back. Read the full policy at https://asef-mahir.github.io/intermission/privacy.html.
 
 PERMISSIONS
 • storage — save settings and counters.
@@ -123,8 +123,8 @@ Recommended order: greeting, breathing timer, fact, check-in, first-run disclosu
 
 1. Enable GitHub Pages for `asef-mahir/focus-friend` from the `main` branch, `/docs` folder.
 2. Confirm these URLs load:
-   - https://asef-mahir.github.io/focus-friend/
-   - https://asef-mahir.github.io/focus-friend/privacy.html
+   - https://asef-mahir.github.io/intermission/
+   - https://asef-mahir.github.io/intermission/privacy.html
 3. Run `node scripts/build.js` and confirm the ZIP is `dist/intermission-1.0.0.zip`.
 4. Upload the ZIP in the Chrome Web Store developer dashboard.
 5. Paste the short and detailed descriptions, category, languages, and URLs.
