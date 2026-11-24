@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Intermission — Privacy Policy</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #29332d;
+        background: #f4f4ed;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; line-height: 1.65; }
+      main { width: min(760px, calc(100% - 40px)); margin: 56px auto 72px; }
+      .eyebrow { margin: 0 0 12px; color: #65816c; font-size: 12px; font-weight: 750; letter-spacing: .14em; }
+      h1 { max-width: 620px; margin: 0 0 12px; font-size: clamp(30px, 5vw, 44px); line-height: 1.1; letter-spacing: -.03em; }
+      h2 { margin: 38px 0 10px; font-size: 21px; letter-spacing: -.015em; }
+      h3 { margin: 24px 0 6px; font-size: 16px; }
+      p, li { color: #4c5a50; }
+      .lede { max-width: 640px; margin: 0 0 28px; font-size: 17px; color: #55645a; }
+      .summary { padding: 24px 26px; border: 1px solid #dfe7d8; border-radius: 20px; background: #fff; box-shadow: 0 8px 28px rgb(40 55 45 / 5%); }
+      .summary p:last-child { margin-bottom: 0; }
+      .summary strong { color: #29332d; }
+      a { color: #405c48; }
+      a:focus-visible { outline: 3px solid #dce9d4; outline-offset: 3px; border-radius: 4px; }
+      table { width: 100%; border-collapse: collapse; margin: 14px 0 6px; font-size: 14px; }
+      th, td { padding: 10px 12px; border-bottom: 1px solid #e4e8df; text-align: left; vertical-align: top; }
+      th { color: #29332d; font-size: 13px; }
+      td code { font-size: 12px; color: #55645a; overflow-wrap: anywhere; }
+      .note { margin-top: 10px; padding: 14px 16px; border-left: 3px solid #9dbb9a; border-radius: 0 10px 10px 0; background: #f7f9f4; font-size: 14px; }
+      footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #e2e5dc; color: #69756c; font-size: 13px; }
+      @media (max-width: 560px) {
+        main { margin-top: 32px; }
+        th, td { padding: 8px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">INTERMISSION</p>
+      <h1>Privacy policy</h1>
+      <p class="lede">Effective 24 November 2026 · Version 1.0</p>
+
+      <section class="summary" aria-label="Plain-language summary">
+        <p><strong>The short version:</strong> Intermission keeps your settings and small counters inside Chrome. It does not have a server, an account system, analytics, or ads. It does not read or send the content of the pages you visit.</p>
+        <p>It asks for access only to the sites you choose, and gives that access back when you remove or turn off a site.</p>
+      </section>
+
+      <h2>What Intermission is</h2>
+      <p>Intermission is a Chrome extension that shows a short pause before full page loads of sites you choose. It offers a greeting, optional breathing, a fact, a vent space, and a way back to what you were doing.</p>
+
+      <h2>What is stored</h2>
+      <p>Intermission uses Chrome's built-in storage. It does not operate a database or a developer server.</p>
+
+      <h3>Settings synced by Chrome</h3>
+      <p>If you use Chrome sync, Chrome may sync these settings between your signed-in browsers:</p>
+      <table>
+        <thead><tr><th>Data</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Your site list and which sites are turned on</td><td>To know where to show a pause.</td></tr>
+          <tr><td>Language and pause-frequency preference</td><td>To use the language and timing you chose.</td></tr>
+          <tr><td>Check-in preferences</td><td>To know whether to offer the repeated “Not now” check-in or the active-time check-in.</td></tr>
+          <tr><td>Whether Intermission is on or off</td><td>To respect the main on/off switch.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Device-local counters</h3>
+      <p>These stay in <code>chrome.storage.local</code> on the device and are not sent to the developer:</p>
+      <table>
+        <thead><tr><th>Stored item</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td><code>last_site_hit</code> — the last time a pause appeared for each chosen site</td><td>To honor the pause reminder cooldown.</td></tr>
+          <tr><td><code>not_now_daily_counts</code> — daily “Not now” counts for chosen sites</td><td>To decide when to show the full-screen check-in.</td></tr>
+          <tr><td><code>daily_active_time</code> — daily active seconds for chosen sites</td><td>To offer the optional active-time check-in.</td></tr>
+          <tr><td><code>vent_rounds_today</code> — how many vent rounds were used today</td><td>To pace the vent space.</td></tr>
+          <tr><td><code>voice_history</code> — recently used voice lines</td><td>To avoid repeating the same line too soon.</td></tr>
+          <tr><td><code>last_cycle_count</code> — the last completed breathing cycle count</td><td>To continue the breathing screen sensibly.</td></tr>
+          <tr><td><code>onboarding_consent_version</code> and <code>onboarding_consent_at</code></td><td>To remember that you saw the first-run disclosure and when.</td></tr>
+        </tbody>
+      </table>
+      <p class="note">These counters are keyed by the domains you chose. They do not contain full page addresses, page content, search terms, form entries, or anything you type in the vent space.</p>
+
+      <h2>Browsing and activity information</h2>
+      <p>Intermission handles a small amount of browsing information. On a page where it is allowed to run, it reads the current hostname to check it against your chosen site list. It stores the per-site counters listed above: the last pause time, daily “Not now” counts, and daily active seconds. It does not store full URLs, page titles, query strings, or a list of visited pages.</p>
+      <p>For the optional active-time check-in, it uses pointer, keyboard, and scroll events only to tell whether you are active. It does not record those events, keystrokes, mouse positions, or an interaction timeline. It only adds to a daily seconds counter for the chosen site, and it stops counting when the tab is hidden, unfocused, idle for two minutes, or covered by a pause.</p>
+
+      <h2>What is not collected</h2>
+      <ul>
+        <li>Page content, page text, images, or media.</li>
+        <li>A browsing history: no list of visited pages, page titles, full URLs, paths, or query strings. Only the current hostname is read, and only to match your chosen sites.</li>
+        <li>Search terms, form entries, passwords, or keystrokes.</li>
+        <li>Anything you write in the vent space. Vent text stays in the page and is not saved or sent.</li>
+        <li>Analytics, advertising identifiers, crash reports, or usage telemetry.</li>
+        <li>Accounts, names, email addresses, or payment information.</li>
+      </ul>
+
+      <h2>Host access and permissions</h2>
+      <p>Intermission has no host access when you install it. It asks for access only to the domains you add and turn on. Chrome shows its own permission prompt for those domains.</p>
+      <p>When you turn a site off or remove it, Intermission calls <code>chrome.permissions.remove</code> for that site and stops running there. Turning the site back on asks for access again. If you turn the whole extension off, it stops running and unregisters its content script; access for your chosen sites stays granted so you can turn it back on without re-approving every site. Removing a site always gives its access back.</p>
+      <p>The extension uses:</p>
+      <ul>
+        <li><strong>storage</strong> — to save the settings and counters described above.</li>
+        <li><strong>scripting</strong> — to register the pause script and inject it into tabs that are already open when you enable a site.</li>
+        <li><strong>optional host access</strong> — to show the pause on the domains you choose.</li>
+      </ul>
+
+      <h2>How the data is used</h2>
+      <p>The stored data is used only to run the features you see: showing pauses, respecting cooldowns, pacing check-ins, and remembering your language and preferences. This includes the limited browsing and activity information described above. It is not used for profiling, advertising, credit decisions, or any purpose unrelated to the extension's single purpose.</p>
+
+      <h2>Sharing and sale</h2>
+      <p>The developer does not receive, sell, rent, or share your data. There are no analytics providers, ad networks, or third-party services embedded in the extension. The extension loads only files packaged with it; it does not fetch remote code or send data to a server.</p>
+      <p>If you use Chrome sync, Google may transfer your synced settings between your devices under Google's own terms and privacy policy. That transfer is part of Chrome, not something Intermission controls.</p>
+
+      <h2>Retention and deletion</h2>
+      <ul>
+        <li>Uninstalling Intermission removes its device-local storage.</li>
+        <li>Removing a site or turning it off revokes that site's host access and stops the pause there. Counters for that domain may remain in local storage until you uninstall the extension or clear its data.</li>
+        <li>Turning off the repeated “Not now” check-in clears <code>not_now_daily_counts</code>. Turning off the active-time check-in clears <code>daily_active_time</code>.</li>
+        <li>Synced settings may remain in your Google account's Chrome sync data after uninstalling. You can remove them in Chrome's sync settings or by deleting the extension's data from your Google account.</li>
+      </ul>
+
+      <h2>Chrome Web Store Limited Use</h2>
+      <p>Intermission's use of information received from Chrome APIs adheres to the Chrome Web Store User Data Policy, including the Limited Use requirements. The extension does not use or transfer user data for purposes unrelated to its single purpose, does not use or transfer user data to determine creditworthiness or for lending, and does not sell user data.</p>
+
+      <h2>Children</h2>
+      <p>Intermission is not directed to children under 13 and does not knowingly collect personal information from children.</p>
+
+      <h2>Changes</h2>
+      <p>If this policy changes in a way that affects what is stored or how it is used, the extension will show a new first-run disclosure and ask you to review it before continuing. The version and effective date at the top of this page will change.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy or the extension can be sent to <a href="mailto:darkknight5812@gmail.com">darkknight5812@gmail.com</a>.</p>
+
+      <footer>
+        <p>Intermission · <a href="./index.html">Home</a> · <a href="https://github.com/asef-mahir/focus-friend">Source</a></p>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,6 +1,15 @@
-/* Registered only for enabled sites where the user granted host access. */
-html {
-  visibility: hidden !important;
+/* Registered only for enabled sites where the user granted host access.
+   The delayed animation is a CSS-only fail-safe: if the content script never
+   runs, the page still becomes visible instead of staying hidden forever.
+   Once the script releases the page it sets data-focus-friend-revealed, so the
+   hide rule stops matching even if the site clears the inline style. */
+html:not([data-focus-friend-revealed]) {
+  visibility: hidden;
+  animation: focus-friend-fail-open 0s linear 8s forwards;
+}
+
+@keyframes focus-friend-fail-open {
+  to { visibility: visible; }
 }
 
 #focus-friend-overlay-host {

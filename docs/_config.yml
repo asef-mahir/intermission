@@ -1,0 +1,3 @@
+# Keep internal release planning out of the public GitHub Pages site.
+exclude:
+  - release-readiness-plan.md

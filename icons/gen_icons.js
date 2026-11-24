@@ -1,6 +1,7 @@
 // Pure-Node PNG generator — no external deps
 // Draws a sage-green circle with a white leaf inside
 const fs = require("fs");
+const path = require("path");
 const zlib = require("zlib");
 
 function writePNG(size, outPath) {
@@ -152,9 +153,8 @@ function writePNG(size, outPath) {
   console.log("Written:", outPath, png.length, "bytes");
 }
 
-const base = "c:/Users/MY PC/Desktop/Focus/icons/";
-writePNG(16,  base + "icon16.png");
-writePNG(32,  base + "icon32.png");
-writePNG(48,  base + "icon48.png");
-writePNG(128, base + "icon128.png");
+writePNG(16, path.join(__dirname, "icon16.png"));
+writePNG(32, path.join(__dirname, "icon32.png"));
+writePNG(48, path.join(__dirname, "icon48.png"));
+writePNG(128, path.join(__dirname, "icon128.png"));
 console.log("All icons generated!");

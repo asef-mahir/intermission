@@ -1,7 +1,20 @@
 {
   "onboarding": "Which sites do you get stuck on most? Pick them — I'll be there 🫂",
   "settings": {
-    "pageTitle": "Focus Friend — Settings",
+    "pageTitle": "Intermission — Settings",
+    "firstRunEyebrow": "BEFORE YOU START",
+    "firstRunTitle": "A pause, not a spy.",
+    "firstRunSummary": "Intermission shows a short pause before the sites you choose. Here is exactly what it keeps.",
+    "firstRunStorage": "Your settings, chosen sites, and small counters stay in Chrome storage. Settings may sync through Chrome if you use Chrome sync.",
+    "firstRunBrowsing": "It reads a page's address only to check whether it is a site you chose. Page content and anything you type in the vent room are never saved or sent.",
+    "firstRunSharing": "No accounts, analytics, ads, or developer servers. Nothing is sold or shared.",
+    "firstRunLanguage": "Language",
+    "firstRunPolicy": "Read the privacy policy",
+    "firstRunAccept": "I understand — choose sites",
+    "privacyLink": "Privacy policy",
+    "permissionNeeded": "Access is needed for the sites that are turned on.",
+    "permissionToggleDenied": "Access wasn't granted, so this site stays off.",
+    "permissionRevoked": "Access removed for this site. Turn it back on to allow it again.",
     "intro": "Choose the places where you'd like a gentle pause.",
     "sitesHeading": "Your sites",
     "sitesDescription": "You can change these whenever you like.",
@@ -10,8 +23,8 @@
     "addButton": "Add site",
     "youtubeWarning": "YouTube is also used for studying, so it isn’t included by default. Add it only if it’s one of your personal traps.",
     "grantAccessButton": "Allow access to selected sites",
-    "permissionGranted": "Access granted. Focus Friend will show a pause the next time you visit a selected site.",
-    "permissionDenied": "Without access, Focus Friend can’t pause on those sites. You can try again later.",
+    "permissionGranted": "Access granted. Intermission will show a pause the next time you visit a selected site.",
+    "permissionDenied": "Without access, Intermission can’t pause on those sites. You can try again later.",
     "permissionRequestError": "Chrome couldn't request access. Reload the extension and try again.",
     "noEnabledSites": "Turn on at least one site first.",
     "siteAddedAccessNeeded": "Site added. Allow access to selected sites to show pauses there.",
@@ -32,7 +45,7 @@
     "on": "I’m here with you 🌿",
     "off": "I’m taking a little pause.",
     "turnOn": "Turn me back on",
-    "turnOff": "Pause Focus Friend",
+    "turnOff": "Pause Intermission",
     "language": "বাংলা",
     "settingsTitle": "Settings",
     "settingsDesc": "Manage your sites, pause frequency, and check-ins."
@@ -47,6 +60,7 @@
     "timeCheckinTitle": "You’ve been here a while. Want a short break, or would you like to keep going?",
     "timeCheckinTakeBreak": "Take a short break 🌿",
     "timeCheckinKeepGoing": "Keep going 🌱",
+    "close": "Close",
     "keepPause": "Keep it on",
     "keepPauseResponse": "Got it, keeping the pause active 🌿",
     "disableSitePause": "Turn it off for this site",
@@ -136,807 +150,632 @@
   "number_facts": {
     "0": [
       {
-        "text": "Absolute zero (0 K, −273.15°C) is the lowest temperature on the thermodynamic scale; particles still retain quantum zero-point motion.",
-        "needs_verify": true
+        "text": "Absolute zero (0 K, −273.15°C) is the lowest temperature on the thermodynamic scale; particles still retain quantum zero-point motion."
       },
       {
-        "text": "The mathematical concept of zero (0) was developed in ancient India, revolutionizing mathematics and computing.",
-        "needs_verify": true
+        "text": "The mathematical concept of zero (0) was developed in ancient India, revolutionizing mathematics and computing."
       },
       {
-        "text": "O-negative red blood cells are often used for emergency transfusions when a patient’s blood type is not yet known; they are commonly called the universal red-cell donor type.",
-        "needs_verify": true
+        "text": "O-negative red blood cells are often used for emergency transfusions when a patient’s blood type is not yet known; they are commonly called the universal red-cell donor type."
       }
     ],
     "1": [
       {
-        "text": "The heart works continuously throughout life, alternating between contraction and relaxation with every beat.",
-        "needs_verify": true
+        "text": "The heart works continuously throughout life, alternating between contraction and relaxation with every beat."
       },
       {
-        "text": "A single star—our Sun—holds 99.86% of all the mass in the entire solar system.",
-        "needs_verify": true
+        "text": "A single star—our Sun—holds 99.86% of all the mass in the entire solar system."
       },
       {
-        "text": "An octopus has only 1 central brain, but two-thirds of its neurons reside independently in its arms.",
-        "needs_verify": true
+        "text": "An octopus has only 1 central brain, but two-thirds of its neurons reside independently in its arms."
       }
     ],
     "2": [
       {
-        "text": "The left human lung is somewhat smaller than the right lung and has two lobes instead of three, leaving space for the heart.",
-        "needs_verify": true
+        "text": "The left human lung is somewhat smaller than the right lung and has two lobes instead of three, leaving space for the heart."
       },
       {
-        "text": "Coca-Cola is not officially distributed in North Korea or Cuba under the company’s ordinary distribution network; availability through unofficial channels can vary.",
-        "needs_verify": true
+        "text": "Coca-Cola is not officially distributed in North Korea or Cuba under the company’s ordinary distribution network; availability through unofficial channels can vary."
       },
       {
-        "text": "Some woodpeckers can peck at very high rates. Their skull and beak form a specialized structure that withstands repeated impacts; the popular claim that spongy skull bones act as shock absorbers is misleading.",
-        "needs_verify": true
+        "text": "Some woodpeckers can peck at very high rates. Their skull and beak form a specialized structure that withstands repeated impacts; the popular claim that spongy skull bones act as shock absorbers is misleading."
       }
     ],
     "3": [
       {
-        "text": "Octopuses and squids have 3 hearts; two pump blood through the gills, while the third circulates oxygenated blood through the body.",
-        "needs_verify": true
+        "text": "Octopuses and squids have 3 hearts; two pump blood through the gills, while the third circulates oxygenated blood through the body."
       },
       {
-        "text": "Bees have 3 small additional eyes on top of their head called ocelli, helping them detect polarized light and navigate.",
-        "needs_verify": true
+        "text": "Bees have 3 small additional eyes on top of their head called ocelli, helping them detect polarized light and navigate."
       },
       {
-        "text": "Earth is the 3rd planet from the Sun, and currently the only known celestial body in the universe supporting life.",
-        "needs_verify": true
+        "text": "Earth is the 3rd planet from the Sun, and currently the only known celestial body in the universe supporting life."
       }
     ],
     "4": [
       {
-        "text": "Cows have 4 distinct digestive compartments in their stomach to ferment and break down tough fibrous grass.",
-        "needs_verify": true
+        "text": "Cows have 4 distinct digestive compartments in their stomach to ferment and break down tough fibrous grass."
       },
       {
-        "text": "A mammalian heart has 4 chambers; normal anatomy keeps oxygenated and deoxygenated blood streams separate.",
-        "needs_verify": true
+        "text": "A mammalian heart has 4 chambers; normal anatomy keeps oxygenated and deoxygenated blood streams separate."
       },
       {
-        "text": "Horses sleep primarily in short intervals totaling a few hours a day, often while standing, though deep REM sleep requires lying down.",
-        "needs_verify": true
+        "text": "Horses sleep primarily in short intervals totaling a few hours a day, often while standing, though deep REM sleep requires lying down."
       }
     ],
     "5": [
       {
-        "text": "Most sea stars have 5 arms and lack a centralized blood circulatory system, using a hydraulic water-vascular system for movement and feeding.",
-        "needs_verify": true
+        "text": "Most sea stars have 5 arms and lack a centralized blood circulatory system, using a hydraulic water-vascular system for movement and feeding."
       },
       {
-        "text": "The five interlocking Olympic rings symbolize the union of the five continents, as described by the Olympic movement.",
-        "needs_verify": true
+        "text": "The five interlocking Olympic rings symbolize the union of the five continents, as described by the Olympic movement."
       },
       {
-        "text": "The little finger contributes to grip strength and hand function, but it does not provide anything close to half of total grip strength.",
-        "needs_verify": true
+        "text": "The little finger contributes to grip strength and hand function, but it does not provide anything close to half of total grip strength."
       }
     ],
     "6": [
       {
-        "text": "Adult insects have six legs — one pair on each of the thorax's three segments. Larvae like caterpillars grow extra fleshy legs, and a few species have fewer.",
-        "needs_verify": true
+        "text": "Adult insects have six legs — one pair on each of the thorax's three segments. Larvae like caterpillars grow extra fleshy legs, and a few species have fewer."
       },
       {
-        "text": "Bees build honeycombs using hexagonal cells, a naturally efficient geometry that maximizes perimeter shared between neighboring walls.",
-        "needs_verify": true
+        "text": "Bees build honeycombs using hexagonal cells, a naturally efficient geometry that maximizes perimeter shared between neighboring walls."
       },
       {
-        "text": "Carbon has atomic number 6; its ability to form four stable covalent bonds makes it the foundation of all known organic chemistry.",
-        "needs_verify": true
+        "text": "Carbon has atomic number 6; its ability to form four stable covalent bonds makes it the foundation of all known organic chemistry."
       }
     ],
     "7": [
       {
-        "text": "Both humans and towering giraffes have the exact same number of neck vertebrae: exactly 7 bones.",
-        "needs_verify": true
+        "text": "Both humans and towering giraffes have the exact same number of neck vertebrae: exactly 7 bones."
       },
       {
-        "text": "A prism disperses white light into a continuous spectrum, traditionally described as seven colors.",
-        "needs_verify": true
+        "text": "A prism disperses white light into a continuous spectrum, traditionally described as seven colors."
       },
       {
-        "text": "The number 7 features in widely recognized traditional lists, including common 7-continent models and the classical Seven Wonders of the Ancient World.",
-        "needs_verify": true
+        "text": "The number 7 features in widely recognized traditional lists, including common 7-continent models and the classical Seven Wonders of the Ancient World."
       }
     ],
     "8": [
       {
-        "text": "An octopus has 8 arms lined with hundreds of sensitive suckers that can touch and chemically sense substances in the water.",
-        "needs_verify": true
+        "text": "An octopus has 8 arms lined with hundreds of sensitive suckers that can touch and chemically sense substances in the water."
       },
       {
-        "text": "Most spiders have 8 eyes arranged in patterns on their head, though visual acuity varies widely among different families.",
-        "needs_verify": true
+        "text": "Most spiders have 8 eyes arranged in patterns on their head, though visual acuity varies widely among different families."
       },
       {
-        "text": "Sunlight leaving the surface of the Sun takes approximately 8 minutes and 20 seconds to travel 93 million miles to Earth.",
-        "needs_verify": true
+        "text": "Sunlight leaving the surface of the Sun takes approximately 8 minutes and 20 seconds to travel 93 million miles to Earth."
       }
     ],
     "9": [
       {
-        "text": "Human pregnancy lasts approximately 38 weeks from conception (about 40 weeks from the last menstrual period), roughly spanning 9 calendar months.",
-        "needs_verify": true
+        "text": "Human pregnancy lasts approximately 38 weeks from conception (about 40 weeks from the last menstrual period), roughly spanning 9 calendar months."
       },
       {
-        "text": "Our solar system was officially classified as having 9 planets for over 75 years until Pluto was reclassified in 2006.",
-        "needs_verify": true
+        "text": "Our solar system was officially classified as having 9 planets for over 75 years until Pluto was reclassified in 2006."
       },
       {
-        "text": "A mathematical curiosity of 9: any integer is divisible by 9 if and only if the sum of its digits is divisible by 9.",
-        "needs_verify": true
+        "text": "A mathematical curiosity of 9: any integer is divisible by 9 if and only if the sum of its digits is divisible by 9."
       }
     ],
     "10": [
       {
-        "text": "The decimal base-10 numbering system used globally today is widely believed to have originated from humans counting on their 10 fingers.",
-        "needs_verify": true
+        "text": "The decimal base-10 numbering system used globally today is widely believed to have originated from humans counting on their 10 fingers."
       },
       {
-        "text": "Neon has atomic number 10; when an electric current passes through it, this noble gas glows a brilliant reddish-orange.",
-        "needs_verify": true
+        "text": "Neon has atomic number 10; when an electric current passes through it, this noble gas glows a brilliant reddish-orange."
       },
       {
-        "text": "Canada, the second-largest country on Earth by land area, is composed of exactly 10 provinces and 3 territories.",
-        "needs_verify": true
+        "text": "Canada, the second-largest country on Earth by land area, is composed of exactly 10 provinces and 3 territories."
       }
     ],
     "11": [
       {
-        "text": "In July 1969, the historic Apollo 11 mission succeeded in landing the very first humans on the surface of the Moon.",
-        "needs_verify": true
+        "text": "In July 1969, the historic Apollo 11 mission succeeded in landing the very first humans on the surface of the Moon."
       },
       {
-        "text": "The Sun’s activity follows an approximately 11-year cycle from one solar minimum to the next, although the cycle length varies.",
-        "needs_verify": true
+        "text": "The Sun’s activity follows an approximately 11-year cycle from one solar minimum to the next, although the cycle length varies."
       },
       {
-        "text": "Sodium has atomic number 11; it is an essential dietary mineral necessary for transmitting nerve impulses in the body.",
-        "needs_verify": true
+        "text": "Sodium has atomic number 11; it is an essential dietary mineral necessary for transmitting nerve impulses in the body."
       }
     ],
     "12": [
       {
-        "text": "The human rib cage is formed of 12 symmetrical pairs of ribs (24 ribs in total) guarding the heart and lungs.",
-        "needs_verify": true
+        "text": "The human rib cage is formed of 12 symmetrical pairs of ribs (24 ribs in total) guarding the heart and lungs."
       },
       {
-        "text": "In human history, exactly 12 astronauts have had the privilege of walking on the lunar surface.",
-        "needs_verify": true
+        "text": "In human history, exactly 12 astronauts have had the privilege of walking on the lunar surface."
       },
       {
-        "text": "A solar year contains about 12.37 lunar phase cycles (new moon to new moon), which helps explain the historical use of 12-month lunar and lunisolar calendars.",
-        "needs_verify": true
+        "text": "A solar year contains about 12.37 lunar phase cycles (new moon to new moon), which helps explain the historical use of 12-month lunar and lunisolar calendars."
       }
     ],
     "13": [
       {
-        "text": "A 'baker's dozen' equals 13, traditionally explained as bakers adding an extra loaf to avoid historical penalties for selling underweight bread.",
-        "needs_verify": true
+        "text": "A 'baker's dozen' equals 13, traditionally explained as bakers adding an extra loaf to avoid historical penalties for selling underweight bread."
       },
       {
-        "text": "Aluminium has atomic number 13; it is the most abundant metal in Earth's crust, making up about 8% of its weight.",
-        "needs_verify": true
+        "text": "Aluminium has atomic number 13; it is the most abundant metal in Earth's crust, making up about 8% of its weight."
       },
       {
-        "text": "The original United States national flag featured 13 stars and 13 alternating stripes honoring the 13 founding colonies.",
-        "needs_verify": true
+        "text": "The original United States national flag featured 13 stars and 13 alternating stripes honoring the 13 founding colonies."
       }
     ],
     "14": [
       {
-        "text": "There are only 14 mountains on planet Earth that rise above 8,000 meters (26,247 feet) above sea level.",
-        "needs_verify": true
+        "text": "There are only 14 mountains on planet Earth that rise above 8,000 meters (26,247 feet) above sea level."
       },
       {
-        "text": "A traditional Shakespearean or Petrarchan sonnet is strictly structured as a poetic form of 14 rhyming lines.",
-        "needs_verify": true
+        "text": "A traditional Shakespearean or Petrarchan sonnet is strictly structured as a poetic form of 14 rhyming lines."
       },
       {
-        "text": "Silicon has atomic number 14; its semiconducting properties serve as the physical heart of all modern computing chips.",
-        "needs_verify": true
+        "text": "Silicon has atomic number 14; its semiconducting properties serve as the physical heart of all modern computing chips."
       }
     ],
     "15": [
       {
-        "text": "Phosphorus has atomic number 15; it forms the vital structural backbone of human DNA and cellular energy (ATP).",
-        "needs_verify": true
+        "text": "Phosphorus has atomic number 15; it forms the vital structural backbone of human DNA and cellular energy (ATP)."
       },
       {
-        "text": "In professional tennis scoring, winning the very first rally awards a score of 15 points.",
-        "needs_verify": true
+        "text": "In professional tennis scoring, winning the very first rally awards a score of 15 points."
       },
       {
-        "text": "Light is so fast that in just 15 nanoseconds, it travels a distance of over 4.5 meters (15 feet).",
-        "needs_verify": true
+        "text": "Light is so fast that in just 15 nanoseconds, it travels a distance of over 4.5 meters (15 feet)."
       }
     ],
     "16": [
       {
-        "text": "A standard game of chess starts with 16 pieces per player: 8 pawns, 2 rooks, 2 knights, 2 bishops, 1 queen, and 1 king.",
-        "needs_verify": true
+        "text": "A standard game of chess starts with 16 pieces per player: 8 pawns, 2 rooks, 2 knights, 2 bishops, 1 queen, and 1 king."
       },
       {
-        "text": "Oxygen, the element that drives cellular respiration across most terrestrial life, has an atomic mass of roughly 16.",
-        "needs_verify": true
+        "text": "Oxygen, the element that drives cellular respiration across most terrestrial life, has an atomic mass of roughly 16."
       },
       {
-        "text": "Pure elemental sulfur has atomic number 16 and is odorless; the pungent smell often associated with matches or volcanic gases comes from sulfur compounds like sulfur dioxide.",
-        "needs_verify": true
+        "text": "Pure elemental sulfur has atomic number 16 and is odorless; the pungent smell often associated with matches or volcanic gases comes from sulfur compounds like sulfur dioxide."
       }
     ],
     "17": [
       {
-        "text": "Some periodical cicada species live underground as nymphs for about 17 years before emerging together as adults for a short time.",
-        "needs_verify": true
+        "text": "Some periodical cicada species live underground as nymphs for about 17 years before emerging together as adults for a short time."
       },
       {
-        "text": "Chlorine has atomic number 17; it is universally utilized across the world to purify drinking water supplies from deadly pathogens.",
-        "needs_verify": true
+        "text": "Chlorine has atomic number 17; it is universally utilized across the world to purify drinking water supplies from deadly pathogens."
       },
       {
-        "text": "Mathematicians proved that a standard 9x9 Sudoku puzzle requires a minimum of 17 clues to possess a unique solvable answer.",
-        "needs_verify": true
+        "text": "Mathematicians proved that a standard 9x9 Sudoku puzzle requires a minimum of 17 clues to possess a unique solvable answer."
       }
     ],
     "18": [
       {
-        "text": "Argon has atomic number 18; it is an inert noble gas that makes up roughly 0.93% of Earth's atmosphere, more than CO2.",
-        "needs_verify": true
+        "text": "Argon has atomic number 18; it is an inert noble gas that makes up roughly 0.93% of Earth's atmosphere, more than CO2."
       },
       {
-        "text": "A standard full golf course consists of 18 holes, a convention established at the Old Course at St Andrews in the 19th century.",
-        "needs_verify": true
+        "text": "A standard full golf course consists of 18 holes, a convention established at the Old Course at St Andrews in the 19th century."
       },
       {
-        "text": "In many countries, 18 is the minimum voting age, but the legal voting age varies by country and sometimes by type of election.",
-        "needs_verify": true
+        "text": "In many countries, 18 is the minimum voting age, but the legal voting age varies by country and sometimes by type of election."
       }
     ],
     "19": [
       {
-        "text": "Potassium has atomic number 19; this electrolyte is essential for cellular water balance and maintaining regular human heartbeat rhythms.",
-        "needs_verify": true
+        "text": "Potassium has atomic number 19; this electrolyte is essential for cellular water balance and maintaining regular human heartbeat rhythms."
       },
       {
-        "text": "Halley’s Comet takes about 75–76 years to orbit the Sun and was last seen from Earth in 1986; its next predicted return is in 2061.",
-        "needs_verify": true
+        "text": "Halley’s Comet takes about 75–76 years to orbit the Sun and was last seen from Earth in 1986; its next predicted return is in 2061."
       },
       {
-        "text": "19 is a twin prime paired with 17, representing two consecutive odd numbers that are both prime.",
-        "needs_verify": true
+        "text": "19 is a twin prime paired with 17, representing two consecutive odd numbers that are both prime."
       }
     ],
     "20": [
       {
-        "text": "Children develop 20 primary (baby) teeth, which are gradually shed as permanent adult teeth emerge.",
-        "needs_verify": true
+        "text": "Children develop 20 primary (baby) teeth, which are gradually shed as permanent adult teeth emerge."
       },
       {
-        "text": "Calcium has atomic number 20; it is the most abundant mineral in the human body, vital for bone density and muscle contraction.",
-        "needs_verify": true
+        "text": "Calcium has atomic number 20; it is the most abundant mineral in the human body, vital for bone density and muscle contraction."
       },
       {
-        "text": "An icosahedron is a regular convex polyhedron featuring exactly 20 identical equilateral triangular faces.",
-        "needs_verify": true
+        "text": "An icosahedron is a regular convex polyhedron featuring exactly 20 identical equilateral triangular faces."
       }
     ],
     "21": [
       {
-        "text": "Earth's breathable atmosphere consists of approximately 21% clean elemental oxygen, with the remaining 78% being nitrogen.",
-        "needs_verify": true
+        "text": "Earth's breathable atmosphere consists of approximately 21% clean elemental oxygen, with the remaining 78% being nitrogen."
       },
       {
-        "text": "The pips (dots) on all six sides of a standard gaming die sum up to exactly 21 (1 + 2 + 3 + 4 + 5 + 6).",
-        "needs_verify": true
+        "text": "The pips (dots) on all six sides of a standard gaming die sum up to exactly 21 (1 + 2 + 3 + 4 + 5 + 6)."
       },
       {
-        "text": "Scandium has atomic number 21; adding small amounts of it to aluminum creates strong, weldable alloys used in specialized aerospace parts.",
-        "needs_verify": true
+        "text": "Scandium has atomic number 21; adding small amounts of it to aluminum creates strong, weldable alloys used in specialized aerospace parts."
       }
     ],
     "22": [
       {
-        "text": "The human skull is constructed of 22 individual bones: 8 cranial bones safeguarding the brain and 14 facial bones.",
-        "needs_verify": true
+        "text": "The human skull is constructed of 22 individual bones: 8 cranial bones safeguarding the brain and 14 facial bones."
       },
       {
-        "text": "Titanium has atomic number 22 and is about 45% lighter than steel with a comparable strength-to-weight ratio, resisting corrosion in harsh environments.",
-        "needs_verify": true
+        "text": "Titanium has atomic number 22 and is about 45% lighter than steel with a comparable strength-to-weight ratio, resisting corrosion in harsh environments."
       },
       {
-        "text": "The regulation distance between the two wickets on a standard cricket pitch is precisely 22 yards.",
-        "needs_verify": true
+        "text": "The regulation distance between the two wickets on a standard cricket pitch is precisely 22 yards."
       }
     ],
     "23": [
       {
-        "text": "Most human nucleated somatic cells contain 46 chromosomes (23 pairs), with one set inherited from each biological parent; mature red blood cells have no nucleus, and sperm and egg cells normally contain 23.",
-        "needs_verify": true
+        "text": "Most human nucleated somatic cells contain 46 chromosomes (23 pairs), with one set inherited from each biological parent; mature red blood cells have no nucleus, and sperm and egg cells normally contain 23."
       },
       {
-        "text": "Earth’s axial tilt (about 23.4°) changes the angle and duration of sunlight through the year, producing the seasons.",
-        "needs_verify": true
+        "text": "Earth’s axial tilt (about 23.4°) changes the angle and duration of sunlight through the year, producing the seasons."
       },
       {
-        "text": "Vanadium has atomic number 23; adding a trace amount to steel doubles its tensile strength, widely used in armor plating.",
-        "needs_verify": true
+        "text": "Vanadium has atomic number 23; adding a trace amount to steel doubles its tensile strength, widely used in armor plating."
       }
     ],
     "24": [
       {
-        "text": "Earth takes 24 hours to complete one rotation relative to the Sun (a mean solar day), which forms the basis for modern daily timekeeping.",
-        "needs_verify": true
+        "text": "Earth takes 24 hours to complete one rotation relative to the Sun (a mean solar day), which forms the basis for modern daily timekeeping."
       },
       {
-        "text": "Pure, unalloyed gold is officially rated at 24 karats, containing 99.9% fine elemental gold.",
-        "needs_verify": true
+        "text": "Pure, unalloyed gold is officially rated at 24 karats, containing 99.9% fine elemental gold."
       },
       {
-        "text": "The human spine contains 24 articulating vertebrae that allow us to twist, bend, and stand upright.",
-        "needs_verify": true
+        "text": "The human spine contains 24 articulating vertebrae that allow us to twist, bend, and stand upright."
       }
     ],
     "25": [
       {
-        "text": "Manganese has atomic number 25; it acts as the essential core catalyst in plants that splits water molecules to generate oxygen.",
-        "needs_verify": true
+        "text": "Manganese has atomic number 25; it acts as the essential core catalyst in plants that splits water molecules to generate oxygen."
       },
       {
-        "text": "A 25th anniversary milestone is traditionally and globally celebrated as the 'Silver Jubilee'.",
-        "needs_verify": true
+        "text": "A 25th anniversary milestone is traditionally and globally celebrated as the 'Silver Jubilee'."
       },
       {
-        "text": "A standard United States quarter coin is valued at exactly 25 cents.",
-        "needs_verify": true
+        "text": "A standard United States quarter coin is valued at exactly 25 cents."
       }
     ],
     "26": [
       {
-        "text": "Iron (atomic number 26) is the central atom in the heme group of hemoglobin, allowing red blood cells to bind and transport oxygen through the body.",
-        "needs_verify": true
+        "text": "Iron (atomic number 26) is the central atom in the heme group of hemoglobin, allowing red blood cells to bind and transport oxygen through the body."
       },
       {
-        "text": "The standard modern English alphabet contains exactly 26 distinct phonetic letters.",
-        "needs_verify": true
+        "text": "The standard modern English alphabet contains exactly 26 distinct phonetic letters."
       },
       {
-        "text": "An official marathon race covers a historic distance of 26 miles and 385 yards (42.195 kilometers).",
-        "needs_verify": true
+        "text": "An official marathon race covers a historic distance of 26 miles and 385 yards (42.195 kilometers)."
       }
     ],
     "27": [
       {
-        "text": "The Moon completes one full sidereal orbit around Earth in approximately 27.3 days.",
-        "needs_verify": true
+        "text": "The Moon completes one full sidereal orbit around Earth in approximately 27.3 days."
       },
       {
-        "text": "Cobalt has atomic number 27; it yields distinctive deep blue pigments and forms the essential metallic core of Vitamin B12.",
-        "needs_verify": true
+        "text": "Cobalt has atomic number 27; it yields distinctive deep blue pigments and forms the essential metallic core of Vitamin B12."
       },
       {
-        "text": "Uranus has 29 known moons. Twenty-seven are named after characters from Shakespeare and Alexander Pope; the two newest are still unnamed.",
-        "needs_verify": true
+        "text": "Uranus has 29 known moons. Twenty-seven are named after characters from Shakespeare and Alexander Pope; the two newest are still unnamed."
       }
     ],
     "28": [
       {
-        "text": "Nickel (atomic number 28) is a key magnetic transition metal, forming a significant component of Earth’s metallic core alongside iron.",
-        "needs_verify": true
+        "text": "Nickel (atomic number 28) is a key magnetic transition metal, forming a significant component of Earth’s metallic core alongside iron."
       },
       {
-        "text": "A standard 'double-six' set of classic dominoes comprises precisely 28 distinct gaming tiles.",
-        "needs_verify": true
+        "text": "A standard 'double-six' set of classic dominoes comprises precisely 28 distinct gaming tiles."
       },
       {
-        "text": "February is the shortest month of the modern Gregorian calendar, having 28 days during common non-leap years.",
-        "needs_verify": true
+        "text": "February is the shortest month of the modern Gregorian calendar, having 28 days during common non-leap years."
       }
     ],
     "29": [
       {
-        "text": "Copper (atomic number 29) is a premier electrical conductor; while pure silver conducts slightly better, copper is the universal standard for electrical wiring.",
-        "needs_verify": true
+        "text": "Copper (atomic number 29) is a premier electrical conductor; while pure silver conducts slightly better, copper is the universal standard for electrical wiring."
       },
       {
-        "text": "In the Gregorian calendar, a year is a leap year if it is divisible by 4, except century years that are not divisible by 400.",
-        "needs_verify": true
+        "text": "In the Gregorian calendar, a year is a leap year if it is divisible by 4, except century years that are not divisible by 400."
       },
       {
-        "text": "The synodic lunar month, measuring the time from one new moon to the next, averages approximately 29.53 days.",
-        "needs_verify": true
+        "text": "The synodic lunar month, measuring the time from one new moon to the next, averages approximately 29.53 days."
       }
     ],
     "30": [
       {
-        "text": "Zinc has atomic number 30; it is an essential trace element necessary for DNA synthesis, immune defense, and rapid wound healing.",
-        "needs_verify": true
+        "text": "Zinc has atomic number 30; it is an essential trace element necessary for DNA synthesis, immune defense, and rapid wound healing."
       },
       {
-        "text": "A 30-year anniversary is traditionally associated with pearls in many cultural gift conventions.",
-        "needs_verify": true
+        "text": "A 30-year anniversary is traditionally associated with pearls in many cultural gift conventions."
       },
       {
-        "text": "Four calendar months in the Gregorian year—April, June, September, and November—have exactly 30 days.",
-        "needs_verify": true
+        "text": "Four calendar months in the Gregorian year—April, June, September, and November—have exactly 30 days."
       }
     ],
     "31": [
       {
-        "text": "Seven months across the calendar year (January, March, May, July, August, October, December) boast exactly 31 days.",
-        "needs_verify": true
+        "text": "Seven months across the calendar year (January, March, May, July, August, October, December) boast exactly 31 days."
       },
       {
-        "text": "Gallium has atomic number 31; this metal remains solid at room temperature but melts directly into liquid in the palm of your warm hand (29.76°C).",
-        "needs_verify": true
+        "text": "Gallium has atomic number 31; this metal remains solid at room temperature but melts directly into liquid in the palm of your warm hand (29.76°C)."
       },
       {
-        "text": "In hot weather, thermal expansion makes the Eiffel Tower a few millimeters taller. Uneven heating by the Sun can also make its top shift along a path about 15 centimeters in diameter.",
-        "needs_verify": true
+        "text": "In hot weather, thermal expansion makes the Eiffel Tower a few millimeters taller. Uneven heating by the Sun can also make its top shift along a path about 15 centimeters in diameter."
       }
     ],
     "32": [
       {
-        "text": "A complete set of permanent adult teeth can include up to 32 teeth, including the four wisdom teeth.",
-        "needs_verify": true
+        "text": "A complete set of permanent adult teeth can include up to 32 teeth, including the four wisdom teeth."
       },
       {
-        "text": "On the Fahrenheit temperature scale, pure water freezes into solid ice at precisely 32 degrees under standard atmospheric pressure.",
-        "needs_verify": true
+        "text": "On the Fahrenheit temperature scale, pure water freezes into solid ice at precisely 32 degrees under standard atmospheric pressure."
       },
       {
-        "text": "Germanium has atomic number 32; it is a critical semiconductor used in wide-angle camera optics and high-speed fiber communications.",
-        "needs_verify": true
+        "text": "Germanium has atomic number 32; it is a critical semiconductor used in wide-angle camera optics and high-speed fiber communications."
       }
     ],
     "33": [
       {
-        "text": "Human babies are born with 33 individual vertebrae in their spine before several naturally fuse during skeletal maturation.",
-        "needs_verify": true
+        "text": "Human babies are born with 33 individual vertebrae in their spine before several naturally fuse during skeletal maturation."
       },
       {
-        "text": "Arsenic has atomic number 33; historically dubbed the 'King of Poisons', it has also played roles in glassmaking and semiconductors.",
-        "needs_verify": true
+        "text": "Arsenic has atomic number 33; historically dubbed the 'King of Poisons', it has also played roles in glassmaking and semiconductors."
       },
       {
-        "text": "Classic full-length 12-inch vinyl LP records spin at a standard rotational speed of 33⅓ revolutions per minute.",
-        "needs_verify": true
+        "text": "Classic full-length 12-inch vinyl LP records spin at a standard rotational speed of 33⅓ revolutions per minute."
       }
     ],
     "34": [
       {
-        "text": "Selenium has atomic number 34; named after Selene, the Greek goddess of the Moon, it acts as a cellular antioxidant.",
-        "needs_verify": true
+        "text": "Selenium has atomic number 34; named after Selene, the Greek goddess of the Moon, it acts as a cellular antioxidant."
       },
       {
-        "text": "34 is the ninth Fibonacci number, appearing in the spiral arrangements of sunflower seed heads and pinecones.",
-        "needs_verify": true
+        "text": "34 is the ninth Fibonacci number, appearing in the spiral arrangements of sunflower seed heads and pinecones."
       },
       {
-        "text": "Hypothermia begins below 35°C (95°F): 32–35°C is mild, 28–32°C is moderate, and below 28°C is severe.",
-        "needs_verify": true
+        "text": "Hypothermia begins below 35°C (95°F): 32–35°C is mild, 28–32°C is moderate, and below 28°C is severe."
       }
     ],
     "35": [
       {
-        "text": "Bromine has atomic number 35; it is the only nonmetallic element on the periodic table that is naturally liquid at room temperature.",
-        "needs_verify": true
+        "text": "Bromine has atomic number 35; it is the only nonmetallic element on the periodic table that is naturally liquid at room temperature."
       },
       {
-        "text": "Under the United States Constitution, a citizen must be at least 35 years of age to be eligible for election as President.",
-        "needs_verify": true
+        "text": "Under the United States Constitution, a citizen must be at least 35 years of age to be eligible for election as President."
       },
       {
-        "text": "A 35-year anniversary is traditionally associated with coral or jade in common gift lists.",
-        "needs_verify": true
+        "text": "A 35-year anniversary is traditionally associated with coral or jade in common gift lists."
       }
     ],
     "36": [
       {
-        "text": "A standard European roulette wheel features numbers from 1 to 36, plus a single green zero pocket, totaling 37 pockets.",
-        "needs_verify": true
+        "text": "A standard European roulette wheel features numbers from 1 to 36, plus a single green zero pocket, totaling 37 pockets."
       },
       {
-        "text": "Krypton is a noble gas used in some specialized lighting applications, including certain high-intensity lamps.",
-        "needs_verify": true
+        "text": "Krypton is a noble gas used in some specialized lighting applications, including certain high-intensity lamps."
       },
       {
-        "text": "36 is mathematically rare: it is simultaneously both a square number (6 x 6) and a triangular number (the sum of 1 through 8).",
-        "needs_verify": true
+        "text": "36 is mathematically rare: it is simultaneously both a square number (6 x 6) and a triangular number (the sum of 1 through 8)."
       }
     ],
     "37": [
       {
-        "text": "37°C (98.6°F) is a traditional reference value for average human body temperature, but normal temperature varies among people and with measurement method and time of day.",
-        "needs_verify": true
+        "text": "37°C (98.6°F) is a traditional reference value for average human body temperature, but normal temperature varies among people and with measurement method and time of day."
       },
       {
-        "text": "Rubidium has atomic number 37; it is a soft alkali metal so reactive that it spontaneously ignites when exposed to atmospheric air.",
-        "needs_verify": true
+        "text": "Rubidium has atomic number 37; it is a soft alkali metal so reactive that it spontaneously ignites when exposed to atmospheric air."
       },
       {
-        "text": "Every three-digit repdigit (111, 222, …, 999) is divisible by 37.",
-        "needs_verify": true
+        "text": "Every three-digit repdigit (111, 222, …, 999) is divisible by 37."
       }
     ],
     "38": [
       {
-        "text": "Strontium has atomic number 38; its energetic electron transitions produce the vibrant, deep crimson red colors seen in fireworks.",
-        "needs_verify": true
+        "text": "Strontium has atomic number 38; its energetic electron transitions produce the vibrant, deep crimson red colors seen in fireworks."
       },
       {
-        "text": "The Korean Demilitarized Zone lies near the 38th parallel, but its boundary does not follow the parallel exactly.",
-        "needs_verify": true
+        "text": "The Korean Demilitarized Zone lies near the 38th parallel, but its boundary does not follow the parallel exactly."
       },
       {
-        "text": "Pregnancy lasts about 38 weeks from fertilization, or about 40 weeks when dated from the first day of the last menstrual period.",
-        "needs_verify": true
+        "text": "Pregnancy lasts about 38 weeks from fertilization, or about 40 weeks when dated from the first day of the last menstrual period."
       }
     ],
     "39": [
       {
-        "text": "Yttrium has atomic number 39; this rare earth metal is essential in manufacturing spark plugs, camera lenses, and superconductors.",
-        "needs_verify": true
+        "text": "Yttrium has atomic number 39; this rare earth metal is essential in manufacturing spark plugs, camera lenses, and superconductors."
       },
       {
-        "text": "The Protestant Old Testament canon contains 39 books; Catholic and Orthodox canons contain additional books.",
-        "needs_verify": true
+        "text": "The Protestant Old Testament canon contains 39 books; Catholic and Orthodox canons contain additional books."
       },
       {
-        "text": "At an average rate of about 75 beats per minute, a resting adult heart would beat roughly 39 million times in a year; the actual number varies.",
-        "needs_verify": true
+        "text": "At an average rate of about 75 beats per minute, a resting adult heart would beat roughly 39 million times in a year; the actual number varies."
       }
     ],
     "40": [
       {
-        "text": "-40 degrees is the singular temperature point where both the Celsius and Fahrenheit scales read the exact same number (-40°C = -40°F).",
-        "needs_verify": true
+        "text": "-40 degrees is the singular temperature point where both the Celsius and Fahrenheit scales read the exact same number (-40°C = -40°F)."
       },
       {
-        "text": "Zirconium has atomic number 40; its exceptional corrosion resistance and low neutron absorption make it the premier coating for nuclear fuel rods.",
-        "needs_verify": true
+        "text": "Zirconium has atomic number 40; its exceptional corrosion resistance and low neutron absorption make it the premier coating for nuclear fuel rods."
       },
       {
-        "text": "A 40th anniversary is widely celebrated as a Ruby Jubilee in traditional anniversary lists.",
-        "needs_verify": true
+        "text": "A 40th anniversary is widely celebrated as a Ruby Jubilee in traditional anniversary lists."
       }
     ],
     "41": [
       {
-        "text": "Niobium has atomic number 41; it is an extraordinary superconducting metal that powers high-field magnetic resonance imaging (MRI) scanners.",
-        "needs_verify": true
+        "text": "Niobium has atomic number 41; it is an extraordinary superconducting metal that powers high-field magnetic resonance imaging (MRI) scanners."
       },
       {
-        "text": "41 is a celebrated prime number: Euler's famous polynomial (n² + n + 41) yields consecutive primes for every integer from 0 to 39.",
-        "needs_verify": true
+        "text": "41 is a celebrated prime number: Euler's famous polynomial (n² + n + 41) yields consecutive primes for every integer from 0 to 39."
       },
       {
-        "text": "41 is the starting constant in Euler's famous prime-generating polynomial (x² + x + 41), which produces prime numbers for all integers from 0 to 39.",
-        "needs_verify": true
+        "text": "41 is the starting constant in Euler's famous prime-generating polynomial (x² + x + 41), which produces prime numbers for all integers from 0 to 39."
       }
     ],
     "42": [
       {
-        "text": "In Douglas Adams' iconic sci-fi classic 'The Hitchhiker's Guide to the Galaxy', 42 is the ultimate answer to life, the universe, and everything.",
-        "needs_verify": true
+        "text": "In Douglas Adams' iconic sci-fi classic 'The Hitchhiker's Guide to the Galaxy', 42 is the ultimate answer to life, the universe, and everything."
       },
       {
-        "text": "A primary rainbow appears when sunlight is refracted, internally reflected, and refracted again in raindrops; its red edge is seen about 42° from the antisolar point.",
-        "needs_verify": true
+        "text": "A primary rainbow appears when sunlight is refracted, internally reflected, and refracted again in raindrops; its red edge is seen about 42° from the antisolar point."
       },
       {
-        "text": "Molybdenum is a trace element required by enzymes involved in nitrogen metabolism; nitrogen fixation is carried out by certain microorganisms, often in association with plants.",
-        "needs_verify": true
+        "text": "Molybdenum is a trace element required by enzymes involved in nitrogen metabolism; nitrogen fixation is carried out by certain microorganisms, often in association with plants."
       }
     ],
     "43": [
       {
-        "text": "Technetium was the first chemical element to be artificially produced; tiny amounts also occur naturally in some uranium ores.",
-        "needs_verify": true
+        "text": "Technetium was the first chemical element to be artificially produced; tiny amounts also occur naturally in some uranium ores."
       },
       {
-        "text": "The human face has dozens of muscles that work together to produce a wide range of facial expressions.",
-        "needs_verify": true
+        "text": "The human face has dozens of muscles that work together to produce a wide range of facial expressions."
       },
       {
-        "text": "43 is a prime number: its only positive divisors are 1 and 43.",
-        "needs_verify": true
+        "text": "43 is a prime number: its only positive divisors are 1 and 43."
       }
     ],
     "44": [
       {
-        "text": "The international direct-dial telephone calling country code for the United Kingdom is +44.",
-        "needs_verify": true
+        "text": "The international direct-dial telephone calling country code for the United Kingdom is +44."
       },
       {
-        "text": "Ruthenium has atomic number 44; this rare platinum-group metal is used to harden platinum and palladium for wear-resistant electrical contacts.",
-        "needs_verify": true
+        "text": "Ruthenium has atomic number 44; this rare platinum-group metal is used to harden platinum and palladium for wear-resistant electrical contacts."
       },
       {
-        "text": "In 44 BC, Roman dictator Julius Caesar was assassinated on the historic Ides of March.",
-        "needs_verify": true
+        "text": "In 44 BC, Roman dictator Julius Caesar was assassinated on the historic Ides of March."
       }
     ],
     "45": [
       {
-        "text": "Rhodium has atomic number 45; it is one of the rarest, most corrosion-resistant, and expensive precious metals on Earth.",
-        "needs_verify": true
+        "text": "Rhodium has atomic number 45; it is one of the rarest, most corrosion-resistant, and expensive precious metals on Earth."
       },
       {
-        "text": "A 45th anniversary is traditionally honored as a Sapphire Jubilee in recognized gift lists.",
-        "needs_verify": true
+        "text": "A 45th anniversary is traditionally honored as a Sapphire Jubilee in recognized gift lists."
       },
       {
-        "text": "Classic 7-inch vinyl record singles were engineered to rotate on turntables at exactly 45 revolutions per minute.",
-        "needs_verify": true
+        "text": "Classic 7-inch vinyl record singles were engineered to rotate on turntables at exactly 45 revolutions per minute."
       }
     ],
     "46": [
       {
-        "text": "Most human nucleated somatic cells contain 46 chromosomes (23 pairs), with one set inherited from each biological parent; mature red blood cells have no nucleus, and sperm and egg cells normally contain 23.",
-        "needs_verify": true
+        "text": "Most human nucleated somatic cells contain 46 chromosomes (23 pairs), with one set inherited from each biological parent; mature red blood cells have no nucleus, and sperm and egg cells normally contain 23."
       },
       {
-        "text": "Palladium (atomic number 46) can absorb vast quantities of hydrogen gas at room temperature, acting like a chemical sponge.",
-        "needs_verify": true
+        "text": "Palladium (atomic number 46) can absorb vast quantities of hydrogen gas at room temperature, acting like a chemical sponge."
       },
       {
-        "text": "Human chromosome 1 is the largest, spanning roughly 249 million DNA base pairs and representing 8% of total cellular DNA.",
-        "needs_verify": true
+        "text": "Human chromosome 1 is the largest, spanning roughly 249 million DNA base pairs and representing 8% of total cellular DNA."
       }
     ],
     "47": [
       {
-        "text": "Silver has atomic number 47; of all elements on Earth, pure silver exhibits the highest electrical and thermal conductivity.",
-        "needs_verify": true
+        "text": "Silver has atomic number 47; of all elements on Earth, pure silver exhibits the highest electrical and thermal conductivity."
       },
       {
-        "text": "The Tropics of Cancer and Capricorn are currently about 23.4° north and south of the equator, roughly 46.8° of latitude apart.",
-        "needs_verify": true
+        "text": "The Tropics of Cancer and Capricorn are currently about 23.4° north and south of the equator, roughly 46.8° of latitude apart."
       },
       {
-        "text": "Silver has atomic number 47; its chemical symbol 'Ag' comes from 'argentum', the Latin word for silver.",
-        "needs_verify": true
+        "text": "Silver has atomic number 47; its chemical symbol 'Ag' comes from 'argentum', the Latin word for silver."
       }
     ],
     "48": [
       {
-        "text": "Cadmium has atomic number 48; its neutron-absorbing qualities make it ideal for nuclear reactor safety control rods.",
-        "needs_verify": true
+        "text": "Cadmium has atomic number 48; its neutron-absorbing qualities make it ideal for nuclear reactor safety control rods."
       },
       {
-        "text": "The contiguous continental United States consists of 48 adjoining states, excluding only Alaska and Hawaii.",
-        "needs_verify": true
+        "text": "The contiguous continental United States consists of 48 adjoining states, excluding only Alaska and Hawaii."
       },
       {
-        "text": "In the 2nd century CE, Ptolemy’s Almagest described 48 constellations known to Greco-Roman astronomy; many of these remain in use today.",
-        "needs_verify": true
+        "text": "In the 2nd century CE, Ptolemy’s Almagest described 48 constellations known to Greco-Roman astronomy; many of these remain in use today."
       }
     ],
     "49": [
       {
-        "text": "49 is a clean perfect square: 7 multiplied by itself equals 49.",
-        "needs_verify": true
+        "text": "49 is a clean perfect square: 7 multiplied by itself equals 49."
       },
       {
-        "text": "The 49th parallel forms a long section of the land boundary between Canada and the United States, but not the entire border.",
-        "needs_verify": true
+        "text": "The 49th parallel forms a long section of the land boundary between Canada and the United States, but not the entire border."
       },
       {
-        "text": "In Tibetan Buddhist tradition, the intermediate 'Bardo' transition state between physical death and rebirth lasts 49 days.",
-        "needs_verify": true
+        "text": "In Tibetan Buddhist tradition, the intermediate 'Bardo' transition state between physical death and rebirth lasts 49 days."
       }
     ],
     "50": [
       {
-        "text": "A 50-year celebration is historically and globally heralded as the magnificent 'Golden Jubilee'.",
-        "needs_verify": true
+        "text": "A 50-year celebration is historically and globally heralded as the magnificent 'Golden Jubilee'."
       },
       {
-        "text": "Bronze (an alloy usually made from copper and tin) became important in different regions at different times; the Bronze Age began more than 5,000 years ago in some parts of the world.",
-        "needs_verify": true
+        "text": "Bronze (an alloy usually made from copper and tin) became important in different regions at different times; the Bronze Age began more than 5,000 years ago in some parts of the world."
       },
       {
-        "text": "The United States is made up of exactly 50 states, permanently honored by the 50 white stars emblazoned upon the national flag.",
-        "needs_verify": true
+        "text": "The United States is made up of exactly 50 states, permanently honored by the 50 white stars emblazoned upon the national flag."
       }
     ]
   },
   "general_facts": [
     {
-      "text": "In English traditional lore, a group of crows is sometimes called a murder, and a group of owls is called a parliament.",
-      "needs_verify": true
+      "text": "In English traditional lore, a group of crows is sometimes called a murder, and a group of owls is called a parliament."
     },
     {
-      "text": "There's a species of frog that can freeze solid in winter and thaw back to life in spring.",
-      "needs_verify": true
+      "text": "There's a species of frog that can freeze solid in winter and thaw back to life in spring."
     },
     {
-      "text": "Scotland's national animal is the unicorn.",
-      "needs_verify": true
+      "text": "Scotland's national animal is the unicorn."
     },
     {
-      "text": "A typical cumulus cloud can contain around a million pounds of water droplets and still float suspended in the atmosphere.",
-      "needs_verify": true
+      "text": "A typical cumulus cloud can contain around a million pounds of water droplets and still float suspended in the atmosphere."
     },
     {
-      "text": "Polar bears have black skin under their white fur.",
-      "needs_verify": true
+      "text": "Polar bears have black skin under their white fur."
     },
     {
-      "text": "Some turtles can breathe through their cloaca.",
-      "needs_verify": true
+      "text": "Some turtles can breathe through their cloaca."
     },
     {
-      "text": "Under certain conditions, warm water has been observed to freeze faster than cold water; this is known as the Mpemba effect, and scientists continue to study its exact causes.",
-      "needs_verify": true
+      "text": "Under certain conditions, warm water has been observed to freeze faster than cold water; this is known as the Mpemba effect, and scientists continue to study its exact causes."
     },
     {
-      "text": "Humans and bananas share many basic cellular genes because all life shares ancient biological ancestry, though popular claims of a simple '60% identical DNA' oversimplify genetic comparisons.",
-      "needs_verify": true
+      "text": "Humans and bananas share many basic cellular genes because all life shares ancient biological ancestry, though popular claims of a simple '60% identical DNA' oversimplify genetic comparisons."
     },
     {
-      "text": "The estimated number of possible unique chess games (the Shannon number, roughly 10¹²⁰) is vastly greater than the estimated number of atoms in the observable universe (about 10⁸⁰).",
-      "needs_verify": true
+      "text": "The estimated number of possible unique chess games (the Shannon number, roughly 10¹²⁰) is vastly greater than the estimated number of atoms in the observable universe (about 10⁸⁰)."
     },
     {
-      "text": "Crows can recognize individual human faces and can communicate perceived threats to other crows in their group through social learning.",
-      "needs_verify": true
+      "text": "Crows can recognize individual human faces and can communicate perceived threats to other crows in their group through social learning."
     },
     {
-      "text": "Bananas are naturally slightly radioactive because of their potassium.",
-      "needs_verify": true
+      "text": "Bananas are naturally slightly radioactive because of their potassium."
     },
     {
-      "text": "Sea otters are sometimes observed holding paws or wrapping themselves in kelp while sleeping to avoid drifting apart in ocean currents.",
-      "needs_verify": true
+      "text": "Sea otters are sometimes observed holding paws or wrapping themselves in kelp while sleeping to avoid drifting apart in ocean currents."
     },
     {
-      "text": "A group of flamingos is sometimes playfully called a flamboyance.",
-      "needs_verify": true
+      "text": "A group of flamingos is sometimes playfully called a flamboyance."
     },
     {
-      "text": "Wombats produce cube-shaped droppings, a unique result of intestinal elasticity that may help prevent them from rolling off rocks when marking territory.",
-      "needs_verify": true
+      "text": "Wombats produce cube-shaped droppings, a unique result of intestinal elasticity that may help prevent them from rolling off rocks when marking territory."
     },
     {
-      "text": "Cats usually have fewer toes on their back paws than their front paws—four in back, five in front.",
-      "needs_verify": true
+      "text": "Cats usually have fewer toes on their back paws than their front paws—four in back, five in front."
     },
     {
-      "text": "A lightning channel can be much hotter than the surface of the sun, but only for a very brief moment.",
-      "needs_verify": true
+      "text": "A lightning channel can be much hotter than the surface of the sun, but only for a very brief moment."
     },
     {
-      "text": "A day on Venus is longer than a year on Venus.",
-      "needs_verify": true
+      "text": "A day on Venus is longer than a year on Venus."
     },
     {
-      "text": "Three-toed sloths can slow their heart rate to hold their breath underwater for up to 40 minutes, easily outlasting many marine animals.",
-      "needs_verify": true
+      "text": "Three-toed sloths can slow their heart rate to hold their breath underwater for up to 40 minutes, easily outlasting many marine animals."
     },
     {
-      "text": "Butterflies can taste with their feet.",
-      "needs_verify": true
+      "text": "Butterflies can taste with their feet."
     },
     {
-      "text": "The Anglo-Zanzibar War of 1896 lasted less than an hour.",
-      "needs_verify": true
+      "text": "The Anglo-Zanzibar War of 1896 lasted less than an hour."
     },
     {
-      "text": "A shrimp's heart is located in its cephalothorax, the fused head and thorax region of its body.",
-      "needs_verify": true
+      "text": "A shrimp's heart is located in its cephalothorax, the fused head and thorax region of its body."
     },
     {
-      "text": "Thorough hand-washing with soap should take at least 20 seconds to effectively remove pathogens—about the time it takes to hum 'Happy Birthday' twice.",
-      "needs_verify": true
+      "text": "Thorough hand-washing with soap should take at least 20 seconds to effectively remove pathogens—about the time it takes to hum 'Happy Birthday' twice."
     }
   ],
   "vent": {

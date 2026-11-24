@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="bn">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Focus Friend — Settings</title>
+    <title>Intermission — Settings</title>
     <link rel="stylesheet" href="options.css">
     <link rel="icon" href="icons/icon48.png">
     <script src="storage.js" defer></script>
@@ -11,73 +11,100 @@
   </head>
   <body>
     <main class="page">
-      <header class="intro">
-        <p class="eyebrow">FOCUS FRIEND</p>
-        <h1 id="onboarding"></h1>
-        <p id="intro-copy" class="muted"></p>
-      </header>
-
-      <section class="settings-card" aria-labelledby="sites-heading">
-        <div class="section-heading">
-          <div>
-            <h2 id="sites-heading"></h2>
-            <p id="sites-description" class="muted"></p>
-          </div>
-          <div class="language-picker" aria-label="Language">
+      <section class="first-run-card" id="first-run" hidden aria-labelledby="first-run-title">
+        <p class="eyebrow" id="first-run-eyebrow"></p>
+        <h1 id="first-run-title"></h1>
+        <p class="muted" id="first-run-summary"></p>
+        <ul class="first-run-list">
+          <li id="first-run-storage"></li>
+          <li id="first-run-browsing"></li>
+          <li id="first-run-sharing"></li>
+        </ul>
+        <div class="first-run-language">
+          <span id="first-run-language-label"></span>
+          <div class="language-picker" role="group" aria-labelledby="first-run-language-label">
             <button type="button" data-language="bn">বাংলা</button>
             <button type="button" data-language="en">English</button>
           </div>
         </div>
-
-        <form id="add-site-form" class="add-site-form">
-          <label class="visually-hidden" for="site-input" id="site-input-label"></label>
-          <input id="site-input" name="site" autocomplete="url">
-          <button class="primary-button" type="submit" id="add-button"></button>
-        </form>
-        <p class="hint" id="youtube-warning"></p>
-        <div class="access-control">
-          <button class="secondary-button" type="button" id="grant-access-button"></button>
-          <p class="form-message" id="permission-message" role="status" aria-live="polite"></p>
-        </div>
-        <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
-
-        <ul id="site-list" class="site-list"></ul>
+        <p class="first-run-policy">
+          <a id="first-run-policy-link" href="https://asef-mahir.github.io/focus-friend/privacy.html" target="_blank" rel="noopener noreferrer"></a>
+        </p>
+        <button class="primary-button" type="button" id="first-run-accept"></button>
       </section>
 
-      <section class="cooldown-card">
-        <label for="debounce-input" id="cooldown-label"></label>
-        <p class="muted" id="cooldown-description"></p>
-        <div class="cooldown-control">
-          <input id="debounce-input" type="number" min="1" max="240" step="1">
-          <span id="minutes-label"></span>
-        </div>
-      </section>
+      <div id="settings-content" hidden>
+        <header class="intro">
+          <p class="eyebrow">INTERMISSION</p>
+          <h1 id="onboarding"></h1>
+          <p id="intro-copy" class="muted"></p>
+        </header>
 
-      <section class="checkin-card">
-        <label class="checkin-setting">
-          <input id="checkin-enabled" type="checkbox">
-          <span class="checkin-copy">
-            <strong id="checkin-label"></strong>
-            <span class="muted" id="checkin-description"></span>
-          </span>
-        </label>
-      </section>
+        <section class="settings-card" aria-labelledby="sites-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="sites-heading"></h2>
+              <p id="sites-description" class="muted"></p>
+            </div>
+            <div class="language-picker" aria-label="Language">
+              <button type="button" data-language="bn">বাংলা</button>
+              <button type="button" data-language="en">English</button>
+            </div>
+          </div>
 
-      <section class="checkin-card">
-        <label class="checkin-setting">
-          <input id="time-checkin-enabled" type="checkbox">
-          <span class="checkin-copy">
-            <strong id="time-checkin-label"></strong>
-            <span class="muted" id="time-checkin-description"></span>
-          </span>
-        </label>
-        <div class="cooldown-control" id="time-checkin-control" style="margin-top: 14px; margin-left: 30px; display: flex; align-items: center; gap: 8px;">
-          <input id="time-checkin-minutes" type="number" min="1" max="180" step="1" style="width: 76px; padding: 7px 10px; border: 1px solid #d4ded6; border-radius: 8px; font: inherit;">
-          <span id="time-checkin-minutes-label"></span>
-        </div>
-      </section>
+          <form id="add-site-form" class="add-site-form">
+            <label class="visually-hidden" for="site-input" id="site-input-label"></label>
+            <input id="site-input" name="site" autocomplete="url">
+            <button class="primary-button" type="submit" id="add-button"></button>
+          </form>
+          <p class="hint" id="youtube-warning"></p>
+          <div class="access-control">
+            <button class="secondary-button" type="button" id="grant-access-button"></button>
+            <p class="form-message" id="permission-message" role="status" aria-live="polite"></p>
+          </div>
+          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
 
-      <p class="footer-note" id="footer-note"></p>
+          <ul id="site-list" class="site-list"></ul>
+        </section>
+
+        <section class="cooldown-card">
+          <label for="debounce-input" id="cooldown-label"></label>
+          <p class="muted" id="cooldown-description"></p>
+          <div class="cooldown-control">
+            <input id="debounce-input" type="number" min="1" max="240" step="1">
+            <span id="minutes-label"></span>
+          </div>
+        </section>
+
+        <section class="checkin-card">
+          <label class="checkin-setting">
+            <input id="checkin-enabled" type="checkbox">
+            <span class="checkin-copy">
+              <strong id="checkin-label"></strong>
+              <span class="muted" id="checkin-description"></span>
+            </span>
+          </label>
+        </section>
+
+        <section class="checkin-card">
+          <label class="checkin-setting">
+            <input id="time-checkin-enabled" type="checkbox">
+            <span class="checkin-copy">
+              <strong id="time-checkin-label"></strong>
+              <span class="muted" id="time-checkin-description"></span>
+            </span>
+          </label>
+          <div class="cooldown-control" id="time-checkin-control" style="margin-top: 14px; margin-left: 30px; display: flex; align-items: center; gap: 8px;">
+            <input id="time-checkin-minutes" type="number" min="1" max="180" step="1" style="width: 76px; padding: 7px 10px; border: 1px solid #d4ded6; border-radius: 8px; font: inherit;">
+            <span id="time-checkin-minutes-label"></span>
+          </div>
+        </section>
+
+        <p class="footer-note" id="footer-note"></p>
+        <p class="footer-note">
+          <a id="privacy-link" href="https://asef-mahir.github.io/focus-friend/privacy.html" target="_blank" rel="noopener noreferrer"></a>
+        </p>
+      </div>
     </main>
   </body>
 </html>

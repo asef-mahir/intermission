@@ -1,7 +1,13 @@
 # Temporary interception test extension
 /spike/
 
+# Build output
+/dist/
+/node_modules/
+
+# Store capture scratch space
+/store/capture/.tmp/
+
 # Private planning and learning documents
 /focus-friend-spec.md
 /focus-friend-learning-plan.md
-/README.md

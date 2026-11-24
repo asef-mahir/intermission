@@ -3,12 +3,25 @@ const copyByLanguage = {
   en: "en"
 };
 
+const CONSENT_VERSION = 1;
+const CONSENT_KEY = "onboarding_consent_version";
+const PRIVACY_URL = "https://asef-mahir.github.io/focus-friend/privacy.html";
+
 let settings;
 let copy;
+let firstRunVisible = false;
 
 function setPermissionMessage(message, text, state) {
   message.textContent = text;
   message.dataset.state = state;
+}
+
+function originsFor(domain) {
+  return [`http://*.${domain}/*`, `https://*.${domain}/*`];
+}
+
+function originsForAll(domains) {
+  return domains.flatMap(originsFor);
 }
 
 async function loadCopy(language) {
@@ -21,6 +34,19 @@ async function render() {
   const text = copy.settings;
   document.documentElement.lang = settings.language;
   document.title = text.pageTitle;
+
+  document.querySelector("#first-run-eyebrow").textContent = text.firstRunEyebrow;
+  document.querySelector("#first-run-title").textContent = text.firstRunTitle;
+  document.querySelector("#first-run-summary").textContent = text.firstRunSummary;
+  document.querySelector("#first-run-storage").textContent = text.firstRunStorage;
+  document.querySelector("#first-run-browsing").textContent = text.firstRunBrowsing;
+  document.querySelector("#first-run-sharing").textContent = text.firstRunSharing;
+  document.querySelector("#first-run-language-label").textContent = text.firstRunLanguage;
+  document.querySelector("#first-run-policy-link").textContent = text.firstRunPolicy;
+  document.querySelector("#first-run-policy-link").href = PRIVACY_URL;
+  document.querySelector("#first-run-accept").textContent = text.firstRunAccept;
+  document.querySelector("#first-run").hidden = !firstRunVisible;
+  document.querySelector("#settings-content").hidden = firstRunVisible;
 
   document.querySelector("#onboarding").textContent = copy.onboarding;
   document.querySelector("#intro-copy").textContent = text.intro;
@@ -35,6 +61,8 @@ async function render() {
   document.querySelector("#cooldown-description").textContent = text.cooldownDescription;
   document.querySelector("#minutes-label").textContent = text.minutes;
   document.querySelector("#footer-note").textContent = text.footerNote;
+  document.querySelector("#privacy-link").textContent = text.privacyLink;
+  document.querySelector("#privacy-link").href = PRIVACY_URL;
   document.querySelector("#debounce-input").value = settings.debounce_minutes;
   document.querySelector("#checkin-label").textContent = text.checkinLabel;
   document.querySelector("#checkin-description").textContent = text.checkinDescription;
@@ -61,16 +89,20 @@ async function render() {
 
 async function updatePermissionStatus() {
   const message = document.querySelector("#permission-message");
-  if (!message || !settings?.enabled_sites?.length) return;
-  const origins = settings.enabled_sites.flatMap((domain) => [
-    `http://*.${domain}/*`,
-    `https://*.${domain}/*`
-  ]);
+  if (!message) return;
+  if (!settings?.enabled_sites?.length) {
+    setPermissionMessage(message, "", "");
+    return;
+  }
+
+  const origins = originsForAll(settings.enabled_sites);
   try {
     const hasAll = await chrome.permissions.contains({ origins });
-    if (hasAll) {
-      setPermissionMessage(message, copy.settings.permissionGranted, "success");
-    }
+    setPermissionMessage(
+      message,
+      hasAll ? copy.settings.permissionGranted : copy.settings.permissionNeeded,
+      hasAll ? "success" : "error"
+    );
   } catch (_) {}
 }
 
@@ -90,10 +122,38 @@ function renderSites(text) {
     toggle.checked = settings.enabled_sites.includes(domain);
     toggle.setAttribute("aria-label", `${text.toggleSite} ${domain}`);
     toggle.addEventListener("change", async () => {
-      settings.enabled_sites = toggle.checked
-        ? [...new Set([...settings.enabled_sites, domain])]
-        : settings.enabled_sites.filter((site) => site !== domain);
+      const message = document.querySelector("#permission-message");
+
+      if (toggle.checked) {
+        // Ask for this site's access while the click is still a user gesture.
+        let granted = false;
+        try {
+          granted = await chrome.permissions.request({ origins: originsFor(domain) });
+        } catch (error) {
+          console.error("Focus Friend permission request failed:", error);
+        }
+
+        if (!granted) {
+          toggle.checked = false;
+          setPermissionMessage(message, text.permissionToggleDenied, "error");
+          return;
+        }
+
+        settings.enabled_sites = [...new Set([...settings.enabled_sites, domain])];
+        await FocusStorage.saveSettings(settings);
+        setPermissionMessage(message, text.permissionGranted, "success");
+        return;
+      }
+
+      // Turning a site off also gives back its host access.
+      settings.enabled_sites = settings.enabled_sites.filter((site) => site !== domain);
       await FocusStorage.saveSettings(settings);
+      try {
+        await chrome.permissions.remove({ origins: originsFor(domain) });
+      } catch (error) {
+        console.error("Focus Friend could not revoke site access:", error);
+      }
+      setPermissionMessage(message, text.permissionRevoked, "success");
     });
 
     const name = document.createElement("span");
@@ -108,6 +168,11 @@ function renderSites(text) {
       settings.sites = settings.sites.filter((site) => site !== domain);
       settings.enabled_sites = settings.enabled_sites.filter((site) => site !== domain);
       await FocusStorage.saveSettings(settings);
+      try {
+        await chrome.permissions.remove({ origins: originsFor(domain) });
+      } catch (error) {
+        console.error("Focus Friend could not revoke site access:", error);
+      }
       await render();
     });
 
@@ -141,10 +206,7 @@ document.querySelector("#add-site-form").addEventListener("submit", async (event
 
 document.querySelector("#grant-access-button").addEventListener("click", async () => {
   const message = document.querySelector("#permission-message");
-  const origins = settings.enabled_sites.flatMap((domain) => [
-    `http://*.${domain}/*`,
-    `https://*.${domain}/*`
-  ]);
+  const origins = originsForAll(settings.enabled_sites);
 
   if (!origins.length) {
     setPermissionMessage(message, copy.settings.noEnabledSites, "error");
@@ -162,6 +224,22 @@ document.querySelector("#grant-access-button").addEventListener("click", async (
     console.error("Focus Friend permission request failed:", error);
     setPermissionMessage(message, copy.settings.permissionRequestError, "error");
   }
+});
+
+document.querySelector("#first-run-accept").addEventListener("click", async () => {
+  try {
+    await chrome.storage.local.set({
+      [CONSENT_KEY]: CONSENT_VERSION,
+      onboarding_consent_at: new Date().toISOString()
+    });
+  } catch (error) {
+    // A storage failure should not trap the user on the disclosure screen.
+    console.error("Focus Friend could not save onboarding consent:", error);
+  }
+
+  firstRunVisible = false;
+  await render();
+  document.querySelector("#site-input").focus();
 });
 
 document.querySelectorAll("[data-language]").forEach((button) => {
@@ -216,6 +294,14 @@ chrome.storage.onChanged.addListener(async (changes, areaName) => {
 });
 
 (async function start() {
+  let stored = {};
+  try {
+    stored = await chrome.storage.local.get(CONSENT_KEY);
+  } catch (error) {
+    console.warn("Focus Friend could not read onboarding consent:", error);
+  }
+  firstRunVisible = !(Number(stored?.[CONSENT_KEY]) >= CONSENT_VERSION);
+
   settings = await FocusStorage.getSettings();
   await render();
 })();

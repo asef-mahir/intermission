@@ -2,6 +2,18 @@
 // Wrapped in a function so the file can safely run more than once in the same page
 // (the service worker re-injects it when the extension is switched back on).
 (() => {
+  // New installs follow the browser's UI language. Bangla is used when the
+  // browser reports a Bangla locale; everything else falls back to English.
+  // Existing saved settings are never overwritten by this detection.
+  function detectDefaultLanguage() {
+    try {
+      const language = String(globalThis.navigator?.language || "").toLowerCase();
+      return language.startsWith("bn") ? "bn" : "en";
+    } catch {
+      return "en";
+    }
+  }
+
   const DEFAULT_SETTINGS = {
     sites: [
       "instagram.com",
@@ -19,7 +31,7 @@
       "reddit.com",
       "discord.com"
     ],
-    language: "bn",
+    language: detectDefaultLanguage(),
     enabled: true,
     debounce_minutes: 20,
     continue_checkin_enabled: true,

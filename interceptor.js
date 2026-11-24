@@ -1,10 +1,28 @@
 (() => {
-  // Guards against a second copy being injected when the extension is switched
-  // back on in a tab that already has a running instance.
-  if (globalThis.__focusFriendInstance) return;
-  globalThis.__focusFriendInstance = true;
-
   const HOST_ID = "focus-friend-overlay-host";
+  const GENTLE_PILL_HOST_ID = "focus-friend-gentle-pill-host";
+  const INSTANCE_TOKEN = { id: `${Date.now()}-${Math.random()}`, cleanup: null };
+  const previousInstance = globalThis.__focusFriendInstance;
+
+  // A second copy can be injected when the extension is switched back on in a
+  // tab that already has an instance. Replace the old instance instead of
+  // letting a stale guard block the fresh one.
+  if (previousInstance && previousInstance !== INSTANCE_TOKEN) {
+    try {
+      previousInstance.cleanup?.();
+    } catch (error) {
+      console.warn("Intermission could not clean up an older instance:", error);
+    }
+    document.getElementById(HOST_ID)?.remove();
+    document.getElementById(GENTLE_PILL_HOST_ID)?.remove();
+  }
+
+  globalThis.__focusFriendInstance = INSTANCE_TOKEN;
+
+  function isCurrentInstance() {
+    return globalThis.__focusFriendInstance === INSTANCE_TOKEN;
+  }
+
   const DEFAULT_COOLDOWN_MINUTES = 20;
   const BREATH_CYCLE_MS = 6_000;
   const previousPageUrl = document.referrer;
@@ -33,15 +51,145 @@
   let ventWarningKind = "five";
   let ventTapTimer = null;
   let audioContext = null;
+  let focusObserver = null;
+  let pageInert = false;
+  let previousFocus = null;
+  let previousBodyInert = false;
+  let previousBodyAriaHidden = null;
+  let startupWatchdog = null;
+  let focusInListenerAttached = false;
   const VENT_HITS_TO_COMPLETE = 30;
   const VENT_ROUNDS_PER_DAY = 20;
   const STUDY_FULL_WORDS = 40; // words that fill the quiet progress line
+
+  function setPageInert(inert) {
+    const body = document.body;
+    if (!body) return;
+
+    if (inert) {
+      if (pageInert) return;
+      const active = document.activeElement;
+      if (active && active !== body && active !== document.documentElement) {
+        previousFocus = active;
+      }
+      previousBodyInert = body.inert;
+      previousBodyAriaHidden = body.getAttribute("aria-hidden");
+      body.inert = true;
+      body.setAttribute("aria-hidden", "true");
+      pageInert = true;
+      return;
+    }
+
+    if (!pageInert) return;
+    body.inert = previousBodyInert;
+    if (previousBodyAriaHidden === null) {
+      body.removeAttribute("aria-hidden");
+    } else {
+      body.setAttribute("aria-hidden", previousBodyAriaHidden);
+    }
+    pageInert = false;
+
+    const target = previousFocus;
+    previousFocus = null;
+    if (target && target.isConnected && typeof target.focus === "function") {
+      try {
+        target.focus({ preventScroll: true });
+      } catch (_) {
+        // The site may have removed the element while the pause was open.
+      }
+    }
+  }
+
+  function getFocusableElements() {
+    if (!shadow) return [];
+    return [...shadow.querySelectorAll(
+      'button:not([disabled]), [href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )].filter((element) => element.getClientRects().length > 0);
+  }
+
+  function focusFirstInView() {
+    if (!host || !shadow) return;
+    const panel = shadow.querySelector(".panel");
+    if (!panel) return;
+
+    const active = shadow.activeElement;
+    if (active && active !== panel && panel.contains(active)) return;
+
+    const focusables = getFocusableElements();
+    if (focusables.length > 0) {
+      focusables[0].focus({ preventScroll: true });
+    } else {
+      panel.focus({ preventScroll: true });
+    }
+  }
+
+  function watchViewFocus() {
+    if (!shadow) return;
+    const panel = shadow.querySelector(".panel");
+    if (!panel || typeof MutationObserver !== "function") return;
+
+    focusObserver?.disconnect();
+    focusObserver = new MutationObserver(() => {
+      if (!host || !isCurrentInstance()) return;
+      requestAnimationFrame(() => {
+        if (host) focusFirstInView();
+      });
+    });
+    focusObserver.observe(panel, { childList: true });
+  }
+
+  function applyOverlayLanguage() {
+    if (!host) return;
+    const language = settings?.language === "bn" ? "bn" : "en";
+    host.lang = language;
+    host.dir = "ltr";
+    shadow?.querySelector(".panel")?.setAttribute("lang", language);
+  }
+
+  function handleOverlayKeydown(event) {
+    if (!host || !shadow || event.key !== "Tab") return;
+    const panel = shadow.querySelector(".panel");
+    if (!panel) return;
+
+    const focusables = getFocusableElements();
+    if (focusables.length === 0) {
+      event.preventDefault();
+      panel.focus({ preventScroll: true });
+      return;
+    }
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const active = shadow.activeElement;
+
+    if (event.shiftKey) {
+      if (active === first || !panel.contains(active)) {
+        event.preventDefault();
+        last.focus({ preventScroll: true });
+      }
+    } else if (active === last || !panel.contains(active)) {
+      event.preventDefault();
+      first.focus({ preventScroll: true });
+    }
+  }
+
+  function handleFocusIn(event) {
+    if (!host || !pageInert) return;
+    if (event.composedPath().includes(host)) return;
+    focusFirstInView();
+  }
 
   function revealPage() {
     if (host) {
       host.remove();
       host = null;
       shadow = null;
+    }
+    focusObserver?.disconnect();
+    focusObserver = null;
+    if (startupWatchdog) {
+      clearTimeout(startupWatchdog);
+      startupWatchdog = null;
     }
     if (breathTimer) {
       clearInterval(breathTimer);
@@ -70,7 +218,11 @@
     selectedGreetingIndex = null;
     selectedVentOfferIndex = null;
     selectedGoodbyeIndex = null;
+    // Mark the page as released so the declarative hide rule cannot apply again
+    // if the site later clears the inline visibility style.
+    document.documentElement?.setAttribute("data-focus-friend-revealed", "");
     document.documentElement?.style.setProperty("visibility", "visible", "important");
+    setPageInert(false);
   }
 
   function prepareAudio() {
@@ -1126,7 +1278,7 @@
         }
       </style>
       <main class="screen fresh">
-        <section class="panel" role="dialog" aria-modal="true" aria-live="polite">
+        <section class="panel" role="dialog" aria-modal="true" aria-labelledby="overlay-title" tabindex="-1">
           <div class="splash" aria-hidden="true"></div>
         </section>
       </main>
@@ -1134,7 +1286,17 @@
     page.appendChild(host);
 
     // The cover is mounted before the hidden page is made visible.
+    page.removeAttribute("data-focus-friend-revealed");
     page.style.setProperty("visibility", "visible", "important");
+
+    setPageInert(true);
+    applyOverlayLanguage();
+    watchViewFocus();
+    shadow.addEventListener("keydown", handleOverlayKeydown);
+    if (!focusInListenerAttached) {
+      document.addEventListener("focusin", handleFocusIn, true);
+      focusInListenerAttached = true;
+    }
     return true;
   }
 
@@ -1142,8 +1304,11 @@
     const panel = shadow.querySelector(".panel");
     panel.classList.remove("greeting-panel");
     panel.replaceChildren();
+    panel.setAttribute("aria-labelledby", "overlay-title");
+    panel.tabIndex = -1;
 
     const heading = document.createElement("h1");
+    heading.id = "overlay-title";
     heading.textContent = title;
     panel.append(heading);
 
@@ -1275,15 +1440,15 @@
     const screen = shadow?.querySelector(".screen");
     if (screen) screen.classList.remove("toast-mode");
 
-    const title = copy?.interception?.continueCheckin || "এই সাইটের বিরতিটা তোমার কাজে লাগছে তো?";
-    const hint = copy?.interception?.continueCheckinHint || "আজ বারবার ‘এখন না’ বেছে নিয়েছ। বিরতি কি কাজে আসছে, নাকি এই সাইটে বন্ধ করে দেব?";
+    const title = copy?.interception?.continueCheckin || "";
+    const hint = copy?.interception?.continueCheckinHint || "";
     const { panel, actions } = makePanel(title, hint);
     panel.classList.remove("toast-panel");
 
     addButton(actions, copy.interception.keepPause, "secondary", async () => {
       await resetNotNowChoice(activeDomain);
       await rememberSiteHit();
-      makePanel(copy.interception.keepPauseResponse || "ঠিক আছে, বিরতি চালু থাকল 🌿");
+      makePanel(copy.interception.keepPauseResponse || "");
       transitionTimer = setTimeout(revealPage, 1100);
     });
 
@@ -1333,7 +1498,7 @@
     const { index: introIndex } = await pickVoiceLineWithIndex(introSlotKey, factIntroPool);
 
     const replySlotKey = replySlot === "same_as_last" ? "cycle_reply_same_as_last" : "cycle_reply_default";
-    const replyPool = (copy.cycle_reply && copy.cycle_reply[replySlot]) || ["{n} বার শ্বাসচক্র সম্পন্ন করেছ 🌿"];
+    const replyPool = (copy.cycle_reply && copy.cycle_reply[replySlot]) || [];
     const { index: replyIndex } = await pickVoiceLineWithIndex(replySlotKey, replyPool);
 
     factSelection = {
@@ -1379,7 +1544,7 @@
     const introTemplate = (introPool && introPool[factSelection.introIndex]) || introPool[0] || "";
     const intro = introTemplate.replaceAll("{n}", String(cycleCount));
 
-    const replyPool = (copy.cycle_reply && copy.cycle_reply[factSelection.replySlot]) || ["{n} বার শ্বাসচক্র সম্পন্ন করেছ 🌿"];
+    const replyPool = (copy.cycle_reply && copy.cycle_reply[factSelection.replySlot]) || [];
     const replyTemplate = (replyPool && replyPool[factSelection.replyIndex]) || replyPool[0] || "";
     const reply = replyTemplate.replaceAll("{n}", String(cycleCount));
 
@@ -1406,7 +1571,7 @@
       transitionTimer = null;
     }
 
-    const goodbyePool = copy.goodbye || [copy.interception?.returning || "You're doing better than you think 🌱"];
+    const goodbyePool = copy.goodbye || [copy.interception?.returning || ""];
     const { text: line, index } = await pickVoiceLineWithIndex(
       "goodbye",
       goodbyePool,
@@ -1446,6 +1611,7 @@
     head.append(eyebrow, index);
 
     const title = document.createElement("h1");
+    title.id = "overlay-title";
     title.className = "study-title";
     title.textContent = copy.vent.promptTitle;
 
@@ -1584,6 +1750,7 @@
     head.append(eyebrow, index);
 
     const title = document.createElement("h1");
+    title.id = "overlay-title";
     title.className = "study-title";
     title.append(document.createTextNode(copy.vent.writeTitle));
     title.append(document.createElement("br"));
@@ -1719,6 +1886,7 @@
     study.lang = studyLang();
 
     const title = document.createElement("h1");
+    title.id = "overlay-title";
     title.className = "study-title";
     title.textContent = copy.vent.burnedMessage;
 
@@ -2555,7 +2723,7 @@
     return chrome.storage.sync.get({
       enabled: true,
       enabled_sites: [],
-      language: "bn",
+      language: String(navigator.language || "").toLowerCase().startsWith("bn") ? "bn" : "en",
       debounce_minutes: DEFAULT_COOLDOWN_MINUTES,
       continue_checkin_enabled: true,
       time_checkin_enabled: false,
@@ -2667,7 +2835,7 @@
 
     // Show the confirmation first. The settings change below will notify this
     // same page; the flag keeps that notification from wiping the message.
-    makePanel(copy?.interception?.disabledSitePauseResponse || "এই সাইটের জন্য বিরতি বন্ধ করা হলো 🌱");
+    makePanel(copy?.interception?.disabledSitePauseResponse || "");
     pendingDisableConfirmation = true;
     transitionTimer = setTimeout(() => {
       pendingDisableConfirmation = false;
@@ -2699,6 +2867,7 @@
   }
 
   function updateBreathTimer() {
+    if (!isCurrentInstance()) return;
     if (view !== "breathing" || !shadow) return;
     const timer = shadow.querySelector(".timer");
     if (!timer) return;
@@ -2729,7 +2898,7 @@
     const minutes = Math.floor(elapsedSeconds / 60);
     const seconds = elapsedSeconds % 60;
     const formattedTime = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-    const timeLabel = copy.interception.timeElapsed || copy.interception.timeLeft || "সময়";
+    const timeLabel = copy.interception.timeElapsed || copy.interception.timeLeft || "";
     timer.textContent = `${timeLabel}: ${formattedTime}`;
 
     if (elapsed >= BREATH_MAX_MS) {
@@ -2838,7 +3007,6 @@
   }
 
   /* ── Gentle In-Session Active Time Check-In ─────────── */
-  const GENTLE_PILL_HOST_ID = "focus-friend-gentle-pill-host";
   let gentlePillHost = null;
   let pillDismissedDomain = null;
   let pendingDisableConfirmation = false;
@@ -2886,6 +3054,7 @@
   }
 
   async function checkActiveTimeThreshold() {
+    if (!isCurrentInstance()) return;
     if (!settings?.time_checkin_enabled || !activeDomain) return;
     const result = await flushActiveTime();
     if (!result) return;
@@ -2899,10 +3068,12 @@
   }
 
   function startActiveTimeTracker() {
+    if (!isCurrentInstance()) return;
     if (activeTrackerTimer) return;
     setupUserActivityListeners();
 
     activeTrackerTimer = setInterval(() => {
+      if (!isCurrentInstance()) return;
       if (!activeDomain || !settings?.time_checkin_enabled) return;
       if (document.visibilityState !== "visible") return;
       if (!document.hasFocus()) return;
@@ -2940,18 +3111,20 @@
   }
 
   async function showGentleTimePill() {
+    if (!isCurrentInstance()) return;
     if (gentlePillHost || host) return;
     if (!copy) {
-      copy = await loadCopy(settings?.language || "bn");
+      copy = await loadCopy(settings?.language || "en");
     }
 
     gentlePillHost = document.createElement("div");
     gentlePillHost.id = GENTLE_PILL_HOST_ID;
     const pillShadow = gentlePillHost.attachShadow({ mode: "closed" });
 
-    const titleText = copy?.interception?.timeCheckinTitle || "You’ve been here a while. Want a short break, or would you like to keep going?";
-    const breakText = copy?.interception?.timeCheckinTakeBreak || "Take a short break 🌿";
-    const continueText = copy?.interception?.timeCheckinKeepGoing || "Keep going 🌱";
+    const titleText = copy?.interception?.timeCheckinTitle || "";
+    const breakText = copy?.interception?.timeCheckinTakeBreak || "";
+    const continueText = copy?.interception?.timeCheckinKeepGoing || "";
+    const closeLabel = copy?.interception?.close || "";
 
     pillShadow.innerHTML = `
       <style>
@@ -3041,7 +3214,7 @@
       <div class="pill-wrap" role="status" aria-live="polite">
         <div class="pill-header">
           <p class="pill-title">${titleText}</p>
-          <button type="button" class="pill-close" aria-label="Close">✕</button>
+          <button type="button" class="pill-close" aria-label="${closeLabel}">✕</button>
         </div>
         <div class="pill-actions">
           <button type="button" class="pill-btn secondary" id="pill-continue">${continueText}</button>
@@ -3092,6 +3265,8 @@
   window.addEventListener("beforeunload", () => void flushActiveTime());
 
   async function checkAndShow(coverImmediately = false) {
+    if (!isCurrentInstance()) return;
+
     // An extension reload invalidates content scripts that are already running in open tabs.
     // Do not try to call extension APIs from that stale context (the tab must be refreshed).
     if (!chrome?.runtime?.id) {
@@ -3103,6 +3278,9 @@
       if (coverImmediately && !mountCover()) return;
 
       settings = await readSettings();
+      if (!isCurrentInstance()) return;
+      applyOverlayLanguage();
+
       activeDomain = settings.enabled ? findMatchingDomain(settings.enabled_sites) : null;
       if (!activeDomain) {
         revealPage();
@@ -3112,12 +3290,14 @@
       startActiveTimeTracker();
 
       if (await wasRecentlyShown(activeDomain, settings.debounce_minutes)) {
-        revealPage();
+        if (isCurrentInstance()) revealPage();
         return;
       }
 
       copy = await loadCopy(settings.language);
+      if (!isCurrentInstance()) return;
       if (!host) mountCover();
+      setPageInert(true);
       view = "greeting";
       await showGreeting();
     } catch (error) {
@@ -3128,23 +3308,67 @@
     }
   }
 
-  function start() {
-    if (document.documentElement) {
-      mountCover();
-      void checkAndShow();
-      return;
-    }
+  function armStartupWatchdog() {
+    if (startupWatchdog) clearTimeout(startupWatchdog);
+    startupWatchdog = setTimeout(() => {
+      startupWatchdog = null;
+      if (!host || !shadow?.querySelector(".panel h1")) {
+        console.warn("Intermission did not finish starting; revealing the page.");
+        revealPage();
+      }
+    }, 8000);
+  }
 
-    const observer = new MutationObserver(() => {
-      if (!document.documentElement) return;
-      observer.disconnect();
-      mountCover();
-      void checkAndShow();
-    });
-    observer.observe(document, { childList: true, subtree: true });
+  function cleanupInstance() {
+    if (activeTrackerTimer) {
+      clearInterval(activeTrackerTimer);
+      activeTrackerTimer = null;
+    }
+    if (gentlePillHost) {
+      gentlePillHost.remove();
+      gentlePillHost = null;
+    }
+    if (activityListenersAttached) {
+      window.removeEventListener("pointerdown", onUserActiveInteraction);
+      window.removeEventListener("keydown", onUserActiveInteraction);
+      window.removeEventListener("scroll", onUserActiveInteraction);
+      activityListenersAttached = false;
+    }
+    if (focusInListenerAttached) {
+      document.removeEventListener("focusin", handleFocusIn, true);
+      focusInListenerAttached = false;
+    }
+    revealPage();
+    activeDomain = null;
+    settings = null;
+    copy = null;
+  }
+
+  function start() {
+    try {
+      if (document.documentElement) {
+        mountCover();
+        void checkAndShow();
+        armStartupWatchdog();
+        return;
+      }
+
+      const observer = new MutationObserver(() => {
+        if (!document.documentElement) return;
+        observer.disconnect();
+        mountCover();
+        void checkAndShow();
+        armStartupWatchdog();
+      });
+      observer.observe(document, { childList: true, subtree: true });
+    } catch (error) {
+      console.error("Intermission could not start:", error);
+      revealPage();
+    }
   }
 
   chrome.storage.onChanged.addListener(async (changes, areaName) => {
+    if (!isCurrentInstance()) return;
     if (areaName !== "sync") return;
 
     let latest;
@@ -3203,6 +3427,7 @@
       settings = latest;
       try {
         copy = await loadCopy(settings.language);
+        applyOverlayLanguage();
         renderCurrentView();
       } catch (error) {
         console.warn("Focus Friend could not switch language:", error);
@@ -3211,6 +3436,7 @@
   });
 
   document.addEventListener("visibilitychange", () => {
+    if (!isCurrentInstance()) return;
     if (document.visibilityState === "hidden") {
       void flushActiveTime();
     } else if (document.visibilityState === "visible") {
@@ -3221,5 +3447,12 @@
     }
   });
 
+  chrome.runtime.onMessage.addListener((message) => {
+    if (message?.type === "focusFriendReveal" && isCurrentInstance()) {
+      revealPage();
+    }
+  });
+
+  INSTANCE_TOKEN.cleanup = cleanupInstance;
   start();
 })();
