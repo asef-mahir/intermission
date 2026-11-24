@@ -121,7 +121,7 @@ Recommended order: greeting, breathing timer, fact, check-in, first-run disclosu
 
 ## Submission checklist
 
-1. Enable GitHub Pages for `asef-mahir/focus-friend` from the `main` branch, `/docs` folder.
+1. Confirm GitHub Pages is live for `asef-mahir/intermission` from the `main` branch, `/docs` folder.
 2. Confirm these URLs load:
    - https://asef-mahir.github.io/intermission/
    - https://asef-mahir.github.io/intermission/privacy.html

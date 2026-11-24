@@ -1,6 +1,6 @@
 # Release Issue List
 
-**Status:** Implementation complete. The policy, disclosure, listing, and assets are prepared; only external publication, the real-site spot checks, and store submission remain.
+**Status:** Implementation complete. GitHub Pages is live at the new repository URL; only the optional real-site spot checks and the Chrome Web Store submission remain.
 **Target:** Chrome Web Store, public release.
 **Product name:** **Intermission**.
 **Current build:** `1.0.0` (working tree), packaged as `dist/intermission-1.0.0.zip`.
@@ -48,7 +48,7 @@ P0 means “must be fixed and verified before submission.” P1 means “must be
 | REL-03 | **Done** | Page body is `inert` and `aria-hidden` while the pause is open; focus enters the first action, Tab/Shift+Tab are trapped, focus is restored on dismissal; dialog uses `aria-labelledby`; overlay `lang` follows the language setting. |
 | REL-04 | **Done** | CSS-only fail-open verified on a fresh page (hidden at 0.8 s, visible after 8 s). JavaScript startup watchdog added. A deliberately thrown startup error has not been fault-injected separately. |
 | REL-05 | **Done** | Remaining check-in/timer literals moved into both language banks; `interception.close` added; options/popup start as `lang="en"` and correct after settings load. |
-| REL-06 | **Done (publish pending)** | Policy written at `docs/privacy.html`; first-run disclosure added with a stored consent version; store disclosure now answers “Web history” and “User activity” as Yes with precise limits. GitHub Pages still needs to be enabled. |
+| REL-06 | **Done** | Policy live at `https://asef-mahir.github.io/intermission/privacy.html`; first-run disclosure added with a stored consent version; store disclosure answers “Web history” and “User activity” as Yes with precise limits. |
 | REL-07 | **Done** | Store listing copy, permission justifications, data-use answers, five 1280×800 screenshots, 440×280 tile, and 1400×560 marquee are prepared. |
 | REL-08 | **Done** | `scripts/build.js` validates an explicit runtime allowlist, creates `dist/unpacked` and a deterministic ZIP, and the ZIP loads in a clean profile with no service-worker errors. |
 | REL-09 | **Verified** | Referrer return navigates back to the work page; direct load with no referrer navigates the tab to `chrome://newtab/`. |
@@ -336,6 +336,7 @@ All tests ran against the current `1.0.0` runtime in an isolated Chrome 158 prof
 - **Browser-language default:** a fresh `en-US` profile stores `language: "en"`; a fresh `bn` profile reports `navigator.language: "bn-IN"` and stores `language: "bn"`. Existing saved languages are preserved.
 - **Host access lifecycle:** with Chrome permission calls stubbed to record arguments, turning `instagram.com` off called `remove` for both its `http` and `https` patterns and removed it from `enabled_sites`; turning it on called `request` and re-added it; the remove button called `remove` and deleted the row. `domainsFromOrigins` parsed `http://*.focus.test/*`, `https://*.focus.test/*`, and `https://x.com/*` to `focus.test` and `x.com`.
 - **Store assets:** five real 1280×800 UI captures plus two alternates; 440×280 tile; 1400×560 marquee. The settings capture uses realistic domains and a granted state.
+- **Public URLs:** `https://asef-mahir.github.io/intermission/` and `/privacy.html` return 200 with the new source and policy links; the old `focus-friend` Pages URLs return 404; the old GitHub repo URL redirects to `https://github.com/asef-mahir/intermission`; `release-readiness-plan.md` is not published (404).
 - **Disclosure consistency:** the store table, detailed description, first-run copy, and privacy policy now agree that the extension reads the current hostname, stores per-domain counters, and counts active seconds, while not storing full URLs, page titles, page content, vent text, clicks, keystrokes, or an interaction timeline. `docs/_config.yml` excludes the internal release plan from GitHub Pages.
 
 **Not yet tested:** the real Chrome host-permission bubble (headless Chrome blocks on the prompt, so the API calls were verified with stubs and the background cleanup path is shared with the tested disable/removal flow); real GitHub/X/YouTube/Google pages; a deliberately thrown startup error; storage failure; cold service worker; blocked content-script injection; host permission revoked while the overlay is open. The CSS fail-open and permission-revocation cleanup are the intended safety nets for those cases.
@@ -417,17 +418,16 @@ All decisions are resolved:
 
 - **D2** facts are checked; the `needs_verify` flags were removed.
 - **D3** browser language with an explicit first-run choice; implemented.
-- **D4** GitHub Pages; policy prepared.
+- **D4** GitHub Pages; live at `https://asef-mahir.github.io/intermission/`.
 - **D5** incognito not supported; documented.
 - **D6** host access is revoked on per-site off/remove; implemented.
 - **REL-06**, **REL-07**, and **REL-11** are implemented.
 
-The release is committed and pushed to `main` as `57dbc71`. The store package is `dist/intermission-1.0.0.zip` (302,357 bytes, 17 files; SHA-256 `D18E59B0BC9BD004263A1E5A1136CB7FFFF93DF2305D55A9E112AF750337D805`).
+The release is committed and pushed to `main`; the public URLs were updated for the `intermission` repository in `a4ac839`. The store package is `dist/intermission-1.0.0.zip` (302,357 bytes, 17 files; SHA-256 `60EAAACBED3AD4B700AE0A602E3B5CA4B1DA900D5D90AA2E817D936C513CE278`).
 
 Remaining external actions:
 
-1. Enable GitHub Pages for `asef-mahir/focus-friend` from `main` / `docs` and confirm the two URLs load.
-2. Run the optional real-site spot checks (GitHub, X, YouTube, Google).
-3. Upload the ZIP and listing in the Chrome Web Store dashboard and submit for review.
+1. Run the optional real-site spot checks (GitHub, X, YouTube, Google).
+2. Upload the ZIP and listing in the Chrome Web Store dashboard and submit for review.
 
 The locked behavior in section 6 remains unchanged.
