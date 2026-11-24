@@ -2,7 +2,7 @@
 
 ## 1.0.0 — 2026-11-24
 
-First public release as **Intermission**.
+Initial `1.0.0` package prepared as **Intermission**. The Chrome Web Store listing is not published yet.
 
 - Renamed all user-facing “Focus Friend” references to “Intermission.”
 - Added a short intermission description and bumped the manifest to `1.0.0`.

@@ -277,6 +277,11 @@ async function main() {
     await sleep(4200);
     await capture(pageSession, "03-breathing.png");
 
+    // Let three six-second cycles finish so the fact is tied to 3, not 0.
+    // The breathing flow itself is unchanged; this only picks a better
+    // marketing fact for the screenshot.
+    await sleep(14000);
+
     await clickButton(pageSession, "Stop when ready");
     await sleep(1400);
     await capture(pageSession, "04-fact.png");

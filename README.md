@@ -1,93 +1,155 @@
-# Intermission
+<div align="center">
+  <img src="store/assets/tile-440x280.png" alt="Intermission — a thoughtful pause before the sites you choose" width="440">
 
-A small Chrome extension that offers a short intermission before the sites you choose.
+  <h1>Intermission</h1>
+  <p><strong>A thoughtful pause before the websites you choose.</strong></p>
+  <p>A Manifest V3 browser extension that helps turn an automatic click into a more intentional choice.</p>
+  <p><strong>English · বাংলা (Bangla) · Chrome · Brave</strong></p>
+</div>
 
-## What it does
+> **Availability:** Intermission is not listed in the Chrome Web Store yet. The versioned manual-install package will be published on [GitHub Releases](https://github.com/asef-mahir/intermission/releases) after the v1.0.0 release is created. Until the package appears there, it is not ready for public download.
 
-- Shows a full-screen pause on full page loads and refreshes of enabled sites.
-- Offers a greeting, optional breathing, a fact reveal, and a way back to work.
-- Keeps the existing full-screen check-in after repeated “Not now” choices.
-- Offers an optional active-time check-in after continuous use.
-- Supports English and Bangla copy, defaulting to the browser language on a new install.
-- Shows a first-run disclosure before any site access and remembers the consent version.
-- Uses no accounts, analytics, remote code, or developer servers.
+---
 
-## Locked behavior
+## What Intermission does
 
-- **Breathing:** 5 minutes, count-up timer, and “Do it again.”
-- **Check-in:** the current full-screen check-in is unchanged.
-- **Navigation:** full page loads and refreshes only. SPA/in-page navigation is not intercepted.
+Intermission shows a brief, full-screen pause before full page loads on sites you choose. Take a breath, read an interesting fact, use the vent space, or head back to what you meant to do.
 
-## Install for development
+- **Your sites, your choice.** Pick the domains where you want a pause.
+- **A little room to reset.** Optional five-minute breathing with a count-up timer, an interesting fact, and a clear return path.
+- **Gentle check-ins.** The current full-screen check-in after repeated “Not now” choices, plus an optional active-time check-in.
+- **English and Bangla.** New installs follow the browser language when it is Bangla and otherwise default to English. You can change language in settings.
+- **User-controlled access.** Approve access for selected sites; turn a site off or remove it to revoke that site's access.
+- **No accounts or analytics.** No ads, remote code, or developer-operated data server.
 
-1. Open `chrome://extensions` and enable **Developer mode**.
-2. Choose **Load unpacked** and select this folder (or `dist/unpacked`).
-3. Open the options page, choose your sites, and allow access for those sites.
+## Preview
 
-The extension requests host access only for the domains you enable. No host access is granted at install time. Turning a site off or removing it revokes that site's access; turning it back on asks again.
+<p align="center">
+  <img src="store/screenshots/01-greeting.png" alt="Intermission greeting before a selected site" width="720">
+</p>
 
-## Build
+Explore more captures in [`store/screenshots/`](store/screenshots/).
 
-```powershell
+## Install in Chrome or Brave
+
+Until the Chrome Web Store listing is available, install Intermission from its versioned GitHub Release package. The package is not published yet; once available, download `intermission-1.0.0.zip` from [GitHub Releases](https://github.com/asef-mahir/intermission/releases) and extract it.
+
+1. Open your browser's extensions page:
+
+   | Browser | Extensions page |
+   |---|---|
+   | Google Chrome | [`chrome://extensions`](chrome://extensions) |
+   | Brave | [`brave://extensions`](brave://extensions) |
+
+2. Turn on **Developer mode** and select **Load unpacked**.
+3. Choose the extracted package folder—the folder where `manifest.json` is directly visible (for example, `…/intermission-1.0.0/manifest.json`). Choose the folder, not the ZIP file or its parent folder.
+4. Open Intermission's popup, select **Settings**, and review the first-run disclosure.
+5. Choose your language and sites. Grant host access when the browser asks.
+6. Open or refresh a selected site to see Intermission.
+
+The manual installation uses the browser's built-in extension manager. To update, either replace the files in the same folder and select **Reload** on the extensions page, or remove the old unpacked copy and load the newly downloaded release folder. Manual installs do not update automatically.
+
+## Browser compatibility
+
+| Browser | Compatibility |
+|---|---|
+| Google Chrome | Primary target; tested in an isolated Chrome profile. |
+| Brave | Tested by loading the extracted extension package with **Load unpacked**; confirmed working. |
+| Other Chromium-based browsers | May be compatible; not yet tested in this project. |
+| Firefox | Not currently supported. |
+
+## Behavior by design
+
+- Intermission runs on **full page loads and refreshes** of enabled sites. It does not intercept SPA or other in-page navigation.
+- Breathing remains five minutes, uses a count-up timer, and offers “Do it again.”
+- The existing full-screen check-in is retained.
+- Turning a site off or removing it revokes that site's host access. Turning it on again asks for access again.
+- Turning the whole extension off keeps access for configured sites, so you can resume without approving each site again.
+- Incognito/private windows are not supported in version 1.0.
+
+## Privacy and permissions
+
+Intermission keeps its data in Chrome's built-in storage and does not send it to the developer.
+
+- **Settings**—including the chosen sites, language, and check-in preferences—are saved in `chrome.storage.sync`. Chrome may sync them according to your Chrome sync settings.
+- **Small local records**—such as cooldown timestamps, daily check-in counts, active seconds, and the first-run disclosure consent version—are saved in `chrome.storage.local` on your device.
+- Intermission reads the current hostname to match it against your chosen sites. It does not store a list of visited pages, full URLs, page titles, page content, search terms, or vent text.
+- For the optional active-time check-in, it counts active seconds on a selected site. It does not record keystrokes, clicks, mouse positions, or an interaction timeline.
+- No accounts, analytics, advertising, or developer servers are used.
+
+| Permission | Why it is needed |
+|---|---|
+| `storage` | Save settings and small counters. |
+| `scripting` | Register the pause script and inject it into tabs that are already open when needed. |
+| Optional host access | Show the pause on sites you choose and enable. |
+
+Read the full [privacy policy](https://asef-mahir.github.io/intermission/privacy.html).
+
+## Built for a considerate pause
+
+- **Manifest V3 service worker** manages content-script registration and cleanup.
+- **Optional, user-approved host permissions** keep site access tied to the sites a person enables.
+- **Accessible overlay** uses keyboard focus management and separates the pause from the underlying page while it is open.
+- **Fail-open behavior** is designed to reveal the page if the pause script cannot finish starting.
+- **English and Bangla content banks** keep interface copy and fact content organized by language.
+- **Dependency-free packaging checks** validate the extension files and produce a reproducible upload ZIP.
+
+## Build and publish the package
+
+Building is for contributors; it is not required to install a published release package. It requires Node.js 18 or later and has no npm dependencies.
+
+```sh
 node scripts/build.js
 ```
 
-This validates the runtime allowlist and writes:
+The build creates:
 
-- `dist/unpacked/` — a clean unpacked build.
-- `dist/intermission-1.0.0.zip` — the Chrome Web Store upload.
+- `dist/unpacked/` — a clean folder for **Load unpacked**.
+- `dist/intermission-1.0.0.zip` — the versioned extension package for distribution.
 
-Validate without writing:
+To publish the manual-install package after the final source commit is pushed:
 
-```powershell
+1. In GitHub, open **Releases → Draft a new release** and create tag `v1.0.0` from the finalized `main` branch.
+2. Attach `dist/intermission-1.0.0.zip` as the release asset and publish the release.
+3. Keep `dist/` out of git; the ZIP belongs as a versioned release asset, not a source file.
+
+The GitHub Release makes the package easy to find and keeps it tied to a version. Users still need to extract it and select the package folder with **Load unpacked**. Automatic browser installation and updates are available only if Intermission is later published in a browser extension store.
+
+Validate without creating build outputs:
+
+```sh
 node scripts/build.js --check
 ```
 
-The build script checks manifest references, JSON, icon dimensions, content-bank key parity, remote-code patterns, absolute local paths, and the ZIP contents. It has no npm dependencies.
+The validation checks the manifest and referenced files, JSON, icon dimensions, English/Bangla content parity, remote-code patterns, and ZIP contents.
 
-## Permissions
-
-| Permission | Why |
-|---|---|
-| `storage` | Save settings, language, enabled domains, and local counters. |
-| `scripting` | Register the pause content script and inject it into already-open tabs. |
-| Optional `http://*/*`, `https://*/*` | The user chooses arbitrary sites; access is requested only for enabled domains. |
-
-## Privacy
-
-- Settings and enabled domains are stored in `chrome.storage.sync`; Chrome may sync them according to the user’s Chrome sync settings.
-- Cooldowns, daily counters, voice history, active-time totals, and the consent version are stored in `chrome.storage.local`.
-- Page content and vent text are not stored or transmitted.
-- The extension does not send browsing data to the developer, use analytics, or sell data.
-- The full policy is at <https://asef-mahir.github.io/intermission/privacy.html>. The options page shows the disclosure before any site access and stores `onboarding_consent_version` in local storage.
-- Incognito is not supported in `1.0`.
-
-## Known limitations
-
-- SPA/in-page navigation is not intercepted.
-- Chrome internal pages and the Chrome Web Store cannot be paused.
-- If host access is revoked while a pause is open, cleanup is best-effort; the 8-second CSS fail-open reveals the page.
-- Turning the whole extension off keeps access for the configured sites so it can be resumed without re-approving each site. Removing or turning off a site does revoke that site's access.
-- Real-site strict-CSP spot checks (GitHub, X, YouTube, Google) are still recommended before submission.
-
-## Project layout
+## Project structure
 
 | Path | Purpose |
 |---|---|
-| `manifest.json` | Manifest V3 entry point. |
-| `background.js` | Content-script registration, open-tab injection, cleanup, copy loading. |
-| `storage.js` | Settings defaults, normalization, and domain parsing. |
-| `interceptor.js` | Overlay, greeting, breathing, fact reveal, vent room, check-ins. |
-| `interceptor.css` | Declarative page hide and CSS-only fail-open. |
-| `popup.html`, `options.html` | Extension popup and settings page. |
-| `content/en.json`, `content/bn.json` | User-facing copy. |
-| `scripts/build.js` | Dependency-free packaging and validation. |
-| `docs/privacy.html`, `docs/index.html` | Public policy and landing page for GitHub Pages. |
-| `store/listing.md` | Store copy, justifications, and submission checklist. |
-| `store/screenshots/`, `store/assets/` | Store images. |
-| `docs/release-readiness-plan.md` | Release issues, decisions, and verification log. |
-| `CHANGELOG.md` | Release notes. |
+| `manifest.json` | Manifest V3 configuration and extension entry points. |
+| `background.js` | Content-script registration, open-tab injection, permission lifecycle, and cleanup. |
+| `storage.js` | Settings defaults, normalization, and domain helpers. |
+| `interceptor.js` | Pause overlay, breathing, facts, check-ins, and return paths. |
+| `interceptor.css` | Page-cover styling and CSS fail-open behavior. |
+| `popup.*`, `options.*` | Toolbar popup, settings, and first-run disclosure. |
+| `content/en.json`, `content/bn.json` | English and Bangla interface copy and fact banks. |
+| `scripts/build.js` | Dependency-free validation and packaging. |
+| `docs/` | Project landing page and privacy policy. |
+| `store/` | Store listing materials, screenshots, and capture tooling. |
 
 ## Verification
 
-The current `1.0.0` build was tested in an isolated Chrome profile for the greeting, breathing, fact reveal, check-in, open-tab injection, focus trap/restore, language switching, disable/removal cleanup, fail-open timing, return-to-work paths, strict-CSP rendering, first-run disclosure, browser-language default, per-site access revocation, and clean-profile ZIP install. See `docs/release-readiness-plan.md` for the detailed log.
+The 1.0.0 build has been tested in an isolated Chrome profile for the core pause flow, breathing, fact reveal, check-ins, language switching, keyboard focus handling, already-open tab injection, permission cleanup, fail-open behavior, strict-CSP rendering, and clean-profile package installation. The unpacked package has also been manually loaded and confirmed working in Brave.
+
+## Project links
+
+- [Project home](https://asef-mahir.github.io/intermission/)
+- [Privacy policy](https://asef-mahir.github.io/intermission/privacy.html)
+- [Issues and feature requests](https://github.com/asef-mahir/intermission/issues)
+- [GitHub Releases](https://github.com/asef-mahir/intermission/releases) — manual-install package will appear here when published
+- **Chrome Web Store:** not listed yet
+
+---
+
+<p align="center"><sub>Intermission 1.0.0 · A little room for a more intentional next click.</sub></p>
