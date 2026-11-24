@@ -1,6 +1,6 @@
 # Release Issue List
 
-**Status:** Extension implementation, GitHub Pages, README, and store assets are prepared. Chrome Web Store submission is paused; the next distribution step is a versioned manual-install ZIP on GitHub Releases.
+**Status:** Extension implementation and GitHub Pages are ready. Version 1.0.0 is available as a manual-install GitHub Release. Chrome Web Store submission is paused.
 **Target:** Chrome Web Store, public release.
 **Product name:** **Intermission**.
 **Current build:** `1.0.0` (working tree), packaged as `dist/intermission-1.0.0.zip`.
@@ -423,11 +423,11 @@ All decisions are resolved:
 - **D6** host access is revoked on per-site off/remove; implemented.
 - **REL-06**, **REL-07**, and **REL-11** are implemented.
 
-The extension runtime and GitHub Pages URL updates are already on `main`. The current local store package is `dist/intermission-1.0.0.zip` (302,357 bytes, 17 files; SHA-256 `60EAAACBED3AD4B700AE0A602E3B5CA4B1DA900D5D90AA2E817D936C513CE278`). The latest README and screenshot-capture changes are local and uncommitted. `dist/` remains gitignored; the ZIP should be attached to a GitHub Release rather than committed into the source tree.
+The final README, landing-page, and screenshot updates are pushed to `main`. The manual-install package is published at `https://github.com/asef-mahir/intermission/releases/tag/v1.0.0`. The ZIP is 302,357 bytes, contains 17 runtime files, and has SHA-256 `60EAAACBED3AD4B700AE0A602E3B5CA4B1DA900D5D90AA2E817D936C513CE278`. `dist/` remains gitignored; the ZIP is attached to the GitHub Release rather than committed into the source tree.
 
 Current distribution plan:
 
-1. Create the `v1.0.0` GitHub Release and attach `dist/intermission-1.0.0.zip`. This provides a versioned manual-install package; users still need to use **Load unpacked**, and updates are manual.
+1. Version 1.0.0 is available through GitHub Releases. Users still need to use **Load unpacked**, and updates are manual.
 2. The Chrome Web Store submission is paused. Revisit it later if the owner decides the developer registration fee is worthwhile; no store submission has been made.
 3. Real-site spot checks (GitHub, X, YouTube, Google) remain optional before a future store submission.
 

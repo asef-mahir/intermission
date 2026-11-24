@@ -7,7 +7,7 @@
   <p><strong>English · বাংলা (Bangla) · Chrome · Brave</strong></p>
 </div>
 
-> **Availability:** Intermission is not listed in the Chrome Web Store yet. The versioned manual-install package will be published on [GitHub Releases](https://github.com/asef-mahir/intermission/releases) after the v1.0.0 release is created. Until the package appears there, it is not ready for public download.
+> **Availability:** Intermission is not listed in the Chrome Web Store yet. The versioned manual-install package is available from the [Intermission 1.0.0 GitHub Release](https://github.com/asef-mahir/intermission/releases/tag/v1.0.0).
 
 ---
 
@@ -32,7 +32,7 @@ Explore more captures in [`store/screenshots/`](store/screenshots/).
 
 ## Install in Chrome or Brave
 
-Until the Chrome Web Store listing is available, install Intermission from its versioned GitHub Release package. The package is not published yet; once available, download `intermission-1.0.0.zip` from [GitHub Releases](https://github.com/asef-mahir/intermission/releases) and extract it.
+Until the Chrome Web Store listing is available, install Intermission from its versioned GitHub Release package. [Download `intermission-1.0.0.zip`](https://github.com/asef-mahir/intermission/releases/download/v1.0.0/intermission-1.0.0.zip) and extract it.
 
 1. Open your browser's extensions page:
 
@@ -107,7 +107,7 @@ The build creates:
 - `dist/unpacked/` — a clean folder for **Load unpacked**.
 - `dist/intermission-1.0.0.zip` — the versioned extension package for distribution.
 
-To publish the manual-install package after the final source commit is pushed:
+To publish a future manual-install package after its source commit is pushed:
 
 1. In GitHub, open **Releases → Draft a new release** and create tag `v1.0.0` from the finalized `main` branch.
 2. Attach `dist/intermission-1.0.0.zip` as the release asset and publish the release.
@@ -147,7 +147,7 @@ The 1.0.0 build has been tested in an isolated Chrome profile for the core pause
 - [Project home](https://asef-mahir.github.io/intermission/)
 - [Privacy policy](https://asef-mahir.github.io/intermission/privacy.html)
 - [Issues and feature requests](https://github.com/asef-mahir/intermission/issues)
-- [GitHub Releases](https://github.com/asef-mahir/intermission/releases) — manual-install package will appear here when published
+- [GitHub Releases](https://github.com/asef-mahir/intermission/releases) — manual-install packages
 - **Chrome Web Store:** not listed yet
 
 ---
