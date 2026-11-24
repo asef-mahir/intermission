@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.1 — 2026-11-25
+
+Refine focus styling for mouse and keyboard navigation.
+
+- Keep the dialog's programmatic focus visually quiet on text-only transition screens.
+- Avoid showing a keyboard focus ring after mouse-driven screen changes.
+- Retain a clear focus ring when the user navigates the overlay with Tab or Shift+Tab.
+- Preserve native Enter/Space activation and the existing focus trap and restoration behavior.
+
 ## 1.0.0 — 2026-11-24
 
 Initial `1.0.0` package prepared as **Intermission**. The Chrome Web Store listing is not published yet.

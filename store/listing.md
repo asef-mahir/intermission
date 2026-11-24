@@ -1,4 +1,4 @@
-# Chrome Web Store listing — Intermission 1.0.0
+# Chrome Web Store listing — Intermission 1.0.1
 
 Use this file to fill the Chrome Web Store dashboard. Copy is final unless a fact changes.
 
@@ -13,7 +13,7 @@ Use this file to fill the Chrome Web Store dashboard. Copy is final unless a fac
 | Homepage | https://asef-mahir.github.io/intermission/ |
 | Support | https://github.com/asef-mahir/intermission/issues |
 | Privacy policy | https://asef-mahir.github.io/intermission/privacy.html |
-| Incognito | Not supported in 1.0 |
+| Incognito | Not supported in 1.x |
 | Remote code | No. All JavaScript and copy are packaged. |
 
 Short description length: 114 characters (limit 132).
@@ -125,7 +125,7 @@ Recommended order: greeting, breathing timer, fact, check-in, first-run disclosu
 2. Confirm these URLs load:
    - https://asef-mahir.github.io/intermission/
    - https://asef-mahir.github.io/intermission/privacy.html
-3. Run `node scripts/build.js` and confirm the ZIP is `dist/intermission-1.0.0.zip`.
+3. Run `node scripts/build.js` and confirm the ZIP is `dist/intermission-1.0.1.zip`.
 4. Upload the ZIP in the Chrome Web Store developer dashboard.
 5. Paste the short and detailed descriptions, category, languages, and URLs.
 6. Upload the five screenshots, tile, and marquee.

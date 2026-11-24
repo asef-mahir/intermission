@@ -148,6 +148,7 @@
 
   function handleOverlayKeydown(event) {
     if (!host || !shadow || event.key !== "Tab") return;
+    host.setAttribute("data-keyboard-navigation", "");
     const panel = shadow.querySelector(".panel");
     if (!panel) return;
 
@@ -171,6 +172,10 @@
       event.preventDefault();
       first.focus({ preventScroll: true });
     }
+  }
+
+  function handleOverlayPointerDown() {
+    host?.removeAttribute("data-keyboard-navigation");
   }
 
   function handleFocusIn(event) {
@@ -391,7 +396,16 @@
           font: inherit;
           cursor: pointer;
         }
-        button:focus-visible { outline: 3px solid #46765a; outline-offset: 3px; }
+        button:focus-visible { outline: none; }
+        :host([data-keyboard-navigation]) button:focus-visible {
+          outline: 3px solid #46765a;
+          outline-offset: 3px;
+        }
+        /* The dialog itself receives programmatic focus on text-only screens
+           so assistive technology can announce it. It is not an action target,
+           so suppress the browser's default black focus box on that container.
+           Interactive controls keep their visible focus indicators. */
+        .panel:focus { outline: none; }
         .primary { background: #46765a; color: #fff; box-shadow: 0 8px 22px rgb(55 104 69 / 18%); }
         .secondary { background: #e3eee4; color: #365943; }
         .fresh .primary { background: #46765a; color: #fff; box-shadow: 0 8px 22px rgb(55 104 69 / 18%); }
@@ -1293,6 +1307,7 @@
     applyOverlayLanguage();
     watchViewFocus();
     shadow.addEventListener("keydown", handleOverlayKeydown);
+    shadow.addEventListener("pointerdown", handleOverlayPointerDown, true);
     if (!focusInListenerAttached) {
       document.addEventListener("focusin", handleFocusIn, true);
       focusInListenerAttached = true;

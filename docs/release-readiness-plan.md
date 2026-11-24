@@ -1,12 +1,12 @@
 # Release Issue List
 
-**Status:** Extension implementation and GitHub Pages are ready. Version 1.0.0 is available as a manual-install GitHub Release. Chrome Web Store submission is paused.
+**Status:** Extension implementation and GitHub Pages are ready. GitHub Releases provides manual-install packages; Chrome Web Store submission remains paused. Version 1.0.1 refines focus behavior for mouse and keyboard users.
 **Target:** Chrome Web Store, public release.
 **Product name:** **Intermission**.
-**Current build:** `1.0.0` (working tree), packaged as `dist/intermission-1.0.0.zip`.
-**Last verified:** 2026-11-24 in an isolated Chrome 158 profile.
+**Current build:** `1.0.1` (working tree), packaged as `dist/intermission-1.0.1.zip`.
+**Last verified:** 2026-11-25 in an isolated Chrome 158 profile.
 
-> The line references in the issue descriptions below describe the original `0.1.0` build. The fixes are implemented in the current `1.0.0` working tree; the status table records what was verified.
+> The line references in the issue descriptions below describe the original `0.1.0` build. Release hardening was completed in 1.0.0; the current 1.0.1 change refines focus styling after mouse-driven screen transitions.
 
 **Scope lock — these are not changing:**
 
@@ -43,7 +43,7 @@ P0 means “must be fixed and verified before submission.” P1 means “must be
 
 | ID | Status | What was done / what remains |
 |---|---|---|
-| REL-01 | **Done** | Renamed user-facing surfaces to “Intermission”; manifest is `1.0.0`. Clean-profile package test finds no old name. Internal IDs unchanged. |
+| REL-01 | **Done** | Renamed user-facing surfaces to “Intermission”; manifest is `1.0.1`. Clean-profile package test finds no old name. Internal IDs unchanged. |
 | REL-02 | **Done (code)** | Open-tab injection now inserts `interceptor.css` before the script, removes duplicate CSS, cleans up on disable/removal, and reveals affected tabs. Permission-revocation cleanup is best-effort; the CSS fail-open covers the case where access is already gone. |
 | REL-03 | **Done** | Page body is `inert` and `aria-hidden` while the pause is open; focus enters the first action, Tab/Shift+Tab are trapped, focus is restored on dismissal; dialog uses `aria-labelledby`; overlay `lang` follows the language setting. |
 | REL-04 | **Done** | CSS-only fail-open verified on a fresh page (hidden at 0.8 s, visible after 8 s). JavaScript startup watchdog added. A deliberately thrown startup error has not been fault-injected separately. |
@@ -218,7 +218,7 @@ P0 means “must be fixed and verified before submission.” P1 means “must be
   - `icons/icon16.png`, `icons/icon32.png`, `icons/icon48.png`, `icons/icon128.png`
 - Exclude `.git/`, `spike/`, `store/`, `docs/`, `scripts/`, `README.md`, `focus-friend-spec.md`, `focus-friend-learning-plan.md`, `icons/gen_icons.js`, `icons/icon.svg`, and any test artifacts.
 - Replace the absolute path in `icons/gen_icons.js` with a path relative to the script, so the build is reproducible on another machine.
-- Set the version to `1.0.0` and add release notes or a changelog.
+- Set the version to `1.0.1` and add release notes or a changelog.
 - Validate that every path referenced by the manifest exists in the ZIP; validate JSON; verify icon dimensions; scan for remote script URLs and absolute local paths.
 - Test the ZIP in a clean Chrome profile, not the development profile.
 
@@ -321,7 +321,7 @@ These are not confirmed bugs. They must pass before public submission.
 
 ### Verification log — 2026-11-24
 
-All tests ran against the current `1.0.0` runtime in an isolated Chrome 158 profile. The extension copy used for the overlay tests added only a test host permission and a read-only debug hook; the packaged ZIP was tested separately without either.
+Baseline tests ran against `1.0.0` in an isolated Chrome 158 profile. The extension copy used for overlay tests added only a test host permission and a read-only debug hook; the packaged ZIP was tested separately without either. The 1.0.1 focus-style change was separately verified in Chrome.
 
 - **Baseline flow:** greeting, breathing prep, breathing timer, fact reveal, full-screen check-in after six “Not now” choices, and no auto-dismiss after 11 s.
 - **Open-tab lifecycle:** enabling while a tab is already open inserts the CSS and JS; the host computes `position: fixed` and fills the viewport. Disabling and removing the site remove the host, restore the page, and clear the hide animation.
@@ -331,13 +331,14 @@ All tests ran against the current `1.0.0` runtime in an isolated Chrome 158 prof
 - **Fail-open:** a fresh page with no content script is hidden at 0.8 s after `interceptor.css` is injected, then visible after the 8 s animation; the animation is removed when the page is released.
 - **Return-to-work:** a page opened from a work page returns to the work page; a direct load with no referrer navigates the tab to `chrome://newtab/`.
 - **Strict CSP:** the overlay renders fully styled under `style-src 'self'` and `style-src 'none'`; the page’s own external stylesheet is blocked in the `none` case, but the shadow-DOM overlay is not.
-- **Package:** the ZIP contains exactly the 17 allowlisted runtime files; it loads in a clean profile with no install-time host permissions, no registered content scripts, and no service-worker exceptions; options and popup render with the new name and no old name.
+- **Package:** the 1.0.0 ZIP contains exactly the 17 allowlisted runtime files; it loads in a clean profile with no install-time host permissions, no registered content scripts, and no service-worker exceptions; options and popup render with the new name and no old name.
 - **First-run disclosure:** a fresh profile shows the disclosure with the settings content hidden; the language choice switches the disclosure between English and Bangla; “I understand — choose sites” stores `onboarding_consent_version: 1` and reveals the settings; a reload keeps it hidden; an older stored version shows it again.
 - **Browser-language default:** a fresh `en-US` profile stores `language: "en"`; a fresh `bn` profile reports `navigator.language: "bn-IN"` and stores `language: "bn"`. Existing saved languages are preserved.
 - **Host access lifecycle:** with Chrome permission calls stubbed to record arguments, turning `instagram.com` off called `remove` for both its `http` and `https` patterns and removed it from `enabled_sites`; turning it on called `request` and re-added it; the remove button called `remove` and deleted the row. `domainsFromOrigins` parsed `http://*.focus.test/*`, `https://*.focus.test/*`, and `https://x.com/*` to `focus.test` and `x.com`.
 - **Store assets:** five real 1280×800 UI captures plus two alternates; 440×280 tile; 1400×560 marquee. The settings capture uses realistic domains and a granted state.
 - **Public URLs:** `https://asef-mahir.github.io/intermission/` and `/privacy.html` return 200 with the new source and policy links; the old `focus-friend` Pages URLs return 404; the old GitHub repo URL redirects to `https://github.com/asef-mahir/intermission`; `release-readiness-plan.md` is not published (404).
 - **Disclosure consistency:** the store table, detailed description, first-run copy, and privacy policy now agree that the extension reads the current hostname, stores per-domain counters, and counts active seconds, while not storing full URLs, page titles, page content, vent text, clicks, keystrokes, or an interaction timeline. `docs/_config.yml` excludes the internal release plan from GitHub Pages.
+- **Focus styling fix:** text-only dialogs no longer show the browser's default outline; mouse-driven transitions no longer make the next primary button appear pressed; Tab/Shift+Tab still show the keyboard focus ring. The return path and focus-trap tests pass.
 
 **Not yet tested:** the real Chrome host-permission bubble (headless Chrome blocks on the prompt, so the API calls were verified with stubs and the background cleanup path is shared with the tested disable/removal flow); real GitHub/X/YouTube/Google pages; a deliberately thrown startup error; storage failure; cold service worker; blocked content-script injection; host permission revoked while the overlay is open. The CSS fail-open and permission-revocation cleanup are the intended safety nets for those cases.
 
@@ -410,7 +411,7 @@ The approved runtime work is implemented:
 - **REL-03** modal isolation, focus management, and language metadata.
 - **REL-04** CSS and JavaScript fail-open protection.
 - **REL-05** hardcoded strings moved into the language banks.
-- **REL-08** packaging script, version `1.0.0`, and clean-profile ZIP test.
+- **REL-08** packaging script, version `1.0.1`, and clean-profile ZIP test.
 - **REL-09** return-to-work paths verified.
 - **REL-10** synthetic strict-CSP rendering verified.
 
@@ -423,11 +424,11 @@ All decisions are resolved:
 - **D6** host access is revoked on per-site off/remove; implemented.
 - **REL-06**, **REL-07**, and **REL-11** are implemented.
 
-The final README, landing-page, and screenshot updates are pushed to `main`. The manual-install package is published at `https://github.com/asef-mahir/intermission/releases/tag/v1.0.0`. The ZIP is 302,357 bytes, contains 17 runtime files, and has SHA-256 `60EAAACBED3AD4B700AE0A602E3B5CA4B1DA900D5D90AA2E817D936C513CE278`. `dist/` remains gitignored; the ZIP is attached to the GitHub Release rather than committed into the source tree.
+GitHub Releases provides versioned manual-install packages; `dist/` remains gitignored and ZIPs are attached to releases rather than committed into the source tree. The v1.0.1 package is 303,038 bytes, contains 17 runtime files, and has SHA-256 `C0FBB5430D8CF7720D9256E71B059E8F0C97C61E415637A622E88F81CA39A72A`.
 
 Current distribution plan:
 
-1. Version 1.0.0 is available through GitHub Releases. Users still need to use **Load unpacked**, and updates are manual.
+1. Users obtain the current manual-install package through GitHub Releases. They still need to use **Load unpacked**, and updates are manual.
 2. The Chrome Web Store submission is paused. Revisit it later if the owner decides the developer registration fee is worthwhile; no store submission has been made.
 3. Real-site spot checks (GitHub, X, YouTube, Google) remain optional before a future store submission.
 

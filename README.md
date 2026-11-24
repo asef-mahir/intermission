@@ -7,7 +7,7 @@
   <p><strong>English · বাংলা (Bangla) · Chrome · Brave</strong></p>
 </div>
 
-> **Availability:** Intermission is not listed in the Chrome Web Store yet. The versioned manual-install package is available from the [Intermission 1.0.0 GitHub Release](https://github.com/asef-mahir/intermission/releases/tag/v1.0.0).
+> **Availability:** Intermission is not listed in the Chrome Web Store yet. The versioned manual-install package is available from the [Intermission 1.0.1 GitHub Release](https://github.com/asef-mahir/intermission/releases/tag/v1.0.1).
 
 ---
 
@@ -32,7 +32,7 @@ Explore more captures in [`store/screenshots/`](store/screenshots/).
 
 ## Install in Chrome or Brave
 
-Until the Chrome Web Store listing is available, install Intermission from its versioned GitHub Release package. [Download `intermission-1.0.0.zip`](https://github.com/asef-mahir/intermission/releases/download/v1.0.0/intermission-1.0.0.zip) and extract it.
+Until the Chrome Web Store listing is available, install Intermission from its versioned GitHub Release package. [Download `intermission-1.0.1.zip`](https://github.com/asef-mahir/intermission/releases/download/v1.0.1/intermission-1.0.1.zip) and extract it.
 
 1. Open your browser's extensions page:
 
@@ -42,7 +42,7 @@ Until the Chrome Web Store listing is available, install Intermission from its v
    | Brave | [`brave://extensions`](brave://extensions) |
 
 2. Turn on **Developer mode** and select **Load unpacked**.
-3. Choose the extracted package folder—the folder where `manifest.json` is directly visible (for example, `…/intermission-1.0.0/manifest.json`). Choose the folder, not the ZIP file or its parent folder.
+3. Choose the extracted package folder—the folder where `manifest.json` is directly visible (for example, `…/intermission-1.0.1/manifest.json`). Choose the folder, not the ZIP file or its parent folder.
 4. Open Intermission's popup, select **Settings**, and review the first-run disclosure.
 5. Choose your language and sites. Grant host access when the browser asks.
 6. Open or refresh a selected site to see Intermission.
@@ -65,7 +65,7 @@ The manual installation uses the browser's built-in extension manager. To update
 - The existing full-screen check-in is retained.
 - Turning a site off or removing it revokes that site's host access. Turning it on again asks for access again.
 - Turning the whole extension off keeps access for configured sites, so you can resume without approving each site again.
-- Incognito/private windows are not supported in version 1.0.
+- Incognito/private windows are not supported in version 1.x.
 
 ## Privacy and permissions
 
@@ -105,12 +105,12 @@ node scripts/build.js
 The build creates:
 
 - `dist/unpacked/` — a clean folder for **Load unpacked**.
-- `dist/intermission-1.0.0.zip` — the versioned extension package for distribution.
+- `dist/intermission-1.0.1.zip` — the versioned extension package for distribution.
 
 To publish a future manual-install package after its source commit is pushed:
 
-1. In GitHub, open **Releases → Draft a new release** and create tag `v1.0.0` from the finalized `main` branch.
-2. Attach `dist/intermission-1.0.0.zip` as the release asset and publish the release.
+1. In GitHub, open **Releases → Draft a new release** and create tag `v1.0.1` from the finalized `main` branch.
+2. Attach `dist/intermission-1.0.1.zip` as the release asset and publish the release.
 3. Keep `dist/` out of git; the ZIP belongs as a versioned release asset, not a source file.
 
 The GitHub Release makes the package easy to find and keeps it tied to a version. Users still need to extract it and select the package folder with **Load unpacked**. Automatic browser installation and updates are available only if Intermission is later published in a browser extension store.
@@ -140,7 +140,7 @@ The validation checks the manifest and referenced files, JSON, icon dimensions, 
 
 ## Verification
 
-The 1.0.0 build has been tested in an isolated Chrome profile for the core pause flow, breathing, fact reveal, check-ins, language switching, keyboard focus handling, already-open tab injection, permission cleanup, fail-open behavior, strict-CSP rendering, and clean-profile package installation. The unpacked package has also been manually loaded and confirmed working in Brave.
+The 1.0.1 build has been tested in an isolated Chrome profile for the core pause flow, breathing, fact reveal, check-ins, language switching, keyboard focus handling, already-open tab injection, permission cleanup, fail-open behavior, strict-CSP rendering, and clean-profile package installation. The unpacked package has also been manually loaded and confirmed working in Brave.
 
 ## Project links
 
@@ -152,4 +152,4 @@ The 1.0.0 build has been tested in an isolated Chrome profile for the core pause
 
 ---
 
-<p align="center"><sub>Intermission 1.0.0 · A little room for a more intentional next click.</sub></p>
+<p align="center"><sub>Intermission 1.0.1 · A little room for a more intentional next click.</sub></p>
