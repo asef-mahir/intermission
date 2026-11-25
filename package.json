@@ -1,6 +1,6 @@
 {
   "name": "intermission",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "Build tooling for the Intermission Chrome extension.",
   "scripts": {

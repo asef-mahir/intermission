@@ -7,7 +7,7 @@
   <p><strong>English · বাংলা (Bangla) · Chrome · Brave</strong></p>
 </div>
 
-> **Availability:** Intermission is not listed in the Chrome Web Store yet. The versioned manual-install package is available from the [Intermission 1.0.1 GitHub Release](https://github.com/asef-mahir/intermission/releases/tag/v1.0.1).
+> **Availability:** Intermission is not listed in the Chrome Web Store yet. The versioned manual-install package is available from the [Intermission 1.0.2 GitHub Release](https://github.com/asef-mahir/intermission/releases/tag/v1.0.2).
 
 ---
 
@@ -19,7 +19,7 @@ Intermission shows a brief, full-screen pause before full page loads on sites yo
 - **A little room to reset.** Optional five-minute breathing with a count-up timer, an interesting fact, and a clear return path.
 - **Gentle check-ins.** The current full-screen check-in after repeated “Not now” choices, plus an optional active-time check-in.
 - **English and Bangla.** New installs follow the browser language when it is Bangla and otherwise default to English. You can change language in settings.
-- **User-controlled access.** Approve access for selected sites; turn a site off or remove it to revoke that site's access.
+- **User-controlled access.** Adding or enabling a site requests access. If access is declined while adding it, the site stays listed but off; turning a site off or removing it revokes its access.
 - **No accounts or analytics.** No ads, remote code, or developer-operated data server.
 
 ## Preview
@@ -32,7 +32,7 @@ Explore more captures in [`store/screenshots/`](store/screenshots/).
 
 ## Install in Chrome or Brave
 
-Until the Chrome Web Store listing is available, install Intermission from its versioned GitHub Release package. [Download `intermission-1.0.1.zip`](https://github.com/asef-mahir/intermission/releases/download/v1.0.1/intermission-1.0.1.zip) and extract it.
+Until the Chrome Web Store listing is available, install Intermission from its versioned GitHub Release package. [Download `intermission-1.0.2.zip`](https://github.com/asef-mahir/intermission/releases/download/v1.0.2/intermission-1.0.2.zip) and extract it.
 
 1. Open your browser's extensions page:
 
@@ -42,7 +42,7 @@ Until the Chrome Web Store listing is available, install Intermission from its v
    | Brave | [`brave://extensions`](brave://extensions) |
 
 2. Turn on **Developer mode** and select **Load unpacked**.
-3. Choose the extracted package folder—the folder where `manifest.json` is directly visible (for example, `…/intermission-1.0.1/manifest.json`). Choose the folder, not the ZIP file or its parent folder.
+3. Choose the extracted package folder—the folder where `manifest.json` is directly visible (for example, `…/intermission-1.0.2/manifest.json`). Choose the folder, not the ZIP file or its parent folder.
 4. Open Intermission's popup, select **Settings**, and review the first-run disclosure.
 5. Choose your language and sites. Grant host access when the browser asks.
 6. Open or refresh a selected site to see Intermission.
@@ -63,6 +63,7 @@ The manual installation uses the browser's built-in extension manager. To update
 - Intermission runs on **full page loads and refreshes** of enabled sites. It does not intercept SPA or other in-page navigation.
 - Breathing remains five minutes, uses a count-up timer, and offers “Do it again.”
 - The existing full-screen check-in is retained.
+- Adding a site requests its host access immediately. If permission is declined, the site remains in the list unchecked and can be enabled later.
 - Turning a site off or removing it revokes that site's host access. Turning it on again asks for access again.
 - Turning the whole extension off keeps access for configured sites, so you can resume without approving each site again.
 - Incognito/private windows are not supported in version 1.x.
@@ -105,12 +106,12 @@ node scripts/build.js
 The build creates:
 
 - `dist/unpacked/` — a clean folder for **Load unpacked**.
-- `dist/intermission-1.0.1.zip` — the versioned extension package for distribution.
+- `dist/intermission-1.0.2.zip` — the versioned extension package for distribution.
 
 To publish a future manual-install package after its source commit is pushed:
 
-1. In GitHub, open **Releases → Draft a new release** and create tag `v1.0.1` from the finalized `main` branch.
-2. Attach `dist/intermission-1.0.1.zip` as the release asset and publish the release.
+1. In GitHub, open **Releases → Draft a new release** and create tag `v1.0.2` from the finalized `main` branch.
+2. Attach `dist/intermission-1.0.2.zip` as the release asset and publish the release.
 3. Keep `dist/` out of git; the ZIP belongs as a versioned release asset, not a source file.
 
 The GitHub Release makes the package easy to find and keeps it tied to a version. Users still need to extract it and select the package folder with **Load unpacked**. Automatic browser installation and updates are available only if Intermission is later published in a browser extension store.
@@ -140,7 +141,7 @@ The validation checks the manifest and referenced files, JSON, icon dimensions, 
 
 ## Verification
 
-The 1.0.1 build has been tested in an isolated Chrome profile for the core pause flow, breathing, fact reveal, check-ins, language switching, keyboard focus handling, already-open tab injection, permission cleanup, fail-open behavior, strict-CSP rendering, and clean-profile package installation. The unpacked package has also been manually loaded and confirmed working in Brave.
+The 1.0.2 build has been tested in an isolated Chrome profile for the core pause flow, breathing, fact reveal, check-ins, language switching, keyboard focus handling, already-open tab injection, permission cleanup, fail-open behavior, strict-CSP rendering, and clean-profile package installation. The unpacked package has also been manually loaded and confirmed working in Brave.
 
 ## Project links
 
@@ -152,4 +153,4 @@ The 1.0.1 build has been tested in an isolated Chrome profile for the core pause
 
 ---
 
-<p align="center"><sub>Intermission 1.0.1 · A little room for a more intentional next click.</sub></p>
+<p align="center"><sub>Intermission 1.0.2 · A little room for a more intentional next click.</sub></p>

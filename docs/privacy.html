@@ -97,7 +97,7 @@
       </ul>
 
       <h2>Host access and permissions</h2>
-      <p>Intermission has no host access when you install it. It asks for access only to the domains you add and turn on. Chrome shows its own permission prompt for those domains.</p>
+      <p>Intermission has no host access when you install it. When you add a domain or turn on a saved site, Chrome shows its permission prompt. If you decline while adding a domain, it stays in your list but remains off until you enable it.</p>
       <p>When you turn a site off or remove it, Intermission calls <code>chrome.permissions.remove</code> for that site and stops running there. Turning the site back on asks for access again. If you turn the whole extension off, it stops running and unregisters its content script; access for your chosen sites stays granted so you can turn it back on without re-approving every site. Removing a site always gives its access back.</p>
       <p>The extension uses:</p>
       <ul>

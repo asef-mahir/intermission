@@ -95,13 +95,18 @@ async function updatePermissionStatus() {
     return;
   }
 
-  const origins = originsForAll(settings.enabled_sites);
   try {
-    const hasAll = await chrome.permissions.contains({ origins });
+    const permissionStates = await Promise.all(settings.enabled_sites.map(async (domain) => ({
+      domain,
+      granted: await chrome.permissions.contains({ origins: originsFor(domain) })
+    })));
+    const missing = permissionStates.filter((site) => !site.granted).map((site) => site.domain);
     setPermissionMessage(
       message,
-      hasAll ? copy.settings.permissionGranted : copy.settings.permissionNeeded,
-      hasAll ? "success" : "error"
+      missing.length
+        ? copy.settings.permissionNeeded.replace("{sites}", missing.join(", "))
+        : copy.settings.permissionGranted,
+      missing.length ? "error" : "success"
     );
   } catch (_) {}
 }
@@ -196,12 +201,29 @@ document.querySelector("#add-site-form").addEventListener("submit", async (event
     return;
   }
 
+  // Request access directly from the Add action so Chrome recognizes the
+  // request as a user gesture. Only mark the new site on if access is granted.
+  let accessGranted = false;
+  let accessRequestFailed = false;
+  try {
+    accessGranted = await chrome.permissions.request({ origins: originsFor(domain) });
+  } catch (error) {
+    accessRequestFailed = true;
+    console.error("Focus Friend permission request failed:", error);
+  }
+
   settings.sites = [...settings.sites, domain];
-  settings.enabled_sites = [...settings.enabled_sites, domain];
+  settings.enabled_sites = accessGranted
+    ? [...new Set([...settings.enabled_sites, domain])]
+    : settings.enabled_sites.filter((site) => site !== domain);
   await FocusStorage.saveSettings(settings);
   input.value = "";
-  message.textContent = copy.settings.siteAddedAccessNeeded;
   await render();
+  message.textContent = accessGranted
+    ? copy.settings.siteAddedAccessGranted
+    : accessRequestFailed
+      ? copy.settings.siteAddedAccessError
+      : copy.settings.siteAddedAccessDenied;
 });
 
 document.querySelector("#grant-access-button").addEventListener("click", async () => {

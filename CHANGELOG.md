@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.2 — 2026-11-25
+
+Keep site-level keyboard shortcuts from interfering with the vent writing area.
+
+- Isolate keyboard events from the vent textarea so host-page shortcuts cannot cancel typed characters.
+- Preserve text entry, active-time tracking, and Tab-based overlay focus navigation.
+- Request access when a site is added; leave it unchecked if access is declined and show which selected sites still need access.
+- Update an already-visible active-time check-in when the extension language changes.
+
 ## 1.0.1 — 2026-11-25
 
 Refine focus styling for mouse and keyboard navigation.

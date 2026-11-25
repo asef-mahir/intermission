@@ -58,6 +58,7 @@
   let previousBodyAriaHidden = null;
   let startupWatchdog = null;
   let focusInListenerAttached = false;
+  let ventKeyIsolationAttached = false;
   const VENT_HITS_TO_COMPLETE = 30;
   const VENT_ROUNDS_PER_DAY = 20;
   const STUDY_FULL_WORDS = 40; // words that fill the quiet progress line
@@ -176,6 +177,15 @@
 
   function handleOverlayPointerDown() {
     host?.removeAttribute("data-keyboard-navigation");
+  }
+
+  function isolateVentRoomKeyboard(event) {
+    if (!shadow?.activeElement?.classList?.contains("vent-textarea")) return;
+    // Keep Tab available to the overlay's focus trap. Other keys belong to the
+    // textarea; do not let the host page's global shortcuts swallow them.
+    if (event.key === "Tab") return;
+    if (event.type === "keydown") onUserActiveInteraction();
+    event.stopImmediatePropagation();
   }
 
   function handleFocusIn(event) {
@@ -1308,6 +1318,12 @@
     watchViewFocus();
     shadow.addEventListener("keydown", handleOverlayKeydown);
     shadow.addEventListener("pointerdown", handleOverlayPointerDown, true);
+    if (!ventKeyIsolationAttached) {
+      window.addEventListener("keydown", isolateVentRoomKeyboard, true);
+      window.addEventListener("keypress", isolateVentRoomKeyboard, true);
+      window.addEventListener("keyup", isolateVentRoomKeyboard, true);
+      ventKeyIsolationAttached = true;
+    }
     if (!focusInListenerAttached) {
       document.addEventListener("focusin", handleFocusIn, true);
       focusInListenerAttached = true;
@@ -3353,6 +3369,12 @@
       document.removeEventListener("focusin", handleFocusIn, true);
       focusInListenerAttached = false;
     }
+    if (ventKeyIsolationAttached) {
+      window.removeEventListener("keydown", isolateVentRoomKeyboard, true);
+      window.removeEventListener("keypress", isolateVentRoomKeyboard, true);
+      window.removeEventListener("keyup", isolateVentRoomKeyboard, true);
+      ventKeyIsolationAttached = false;
+    }
     revealPage();
     activeDomain = null;
     settings = null;
@@ -3438,12 +3460,17 @@
       }
     }
 
-    if ("language" in changes && host) {
+    if ("language" in changes) {
       settings = latest;
       try {
         copy = await loadCopy(settings.language);
         applyOverlayLanguage();
-        renderCurrentView();
+        if (host) renderCurrentView();
+        if (gentlePillHost && !host) {
+          gentlePillHost.remove();
+          gentlePillHost = null;
+          await showGentleTimePill();
+        }
       } catch (error) {
         console.warn("Focus Friend could not switch language:", error);
       }

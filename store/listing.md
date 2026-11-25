@@ -1,4 +1,4 @@
-# Chrome Web Store listing — Intermission 1.0.1
+# Chrome Web Store listing — Intermission 1.0.2
 
 Use this file to fill the Chrome Web Store dashboard. Copy is final unless a fact changes.
 
@@ -40,7 +40,7 @@ WHAT IT DOESN'T DO
 • Not a medical or therapeutic service.
 
 PRIVACY
-Intermission stores your settings in Chrome storage and keeps small counters on your device. It asks for access only to the sites you turn on. Removing or turning off a site gives that access back. Read the full policy at https://asef-mahir.github.io/intermission/privacy.html.
+Intermission stores your settings in Chrome storage and keeps small counters on your device. It asks for access when you add or turn on a site. If you decline while adding a site, it remains off until you enable it. Removing or turning off a site gives that access back. Read the full policy at https://asef-mahir.github.io/intermission/privacy.html.
 
 PERMISSIONS
 • storage — save settings and counters.
@@ -70,7 +70,7 @@ Registers the pause content script for the user's enabled domains and injects it
 
 ### Optional host permissions (`http://*/*`, `https://*/*`)
 
-The user can add any website to a personal pause list. Access is requested only for the domains the user turns on, at the moment they turn them on. No host access is granted at install time. Access is revoked when a site is removed or turned off; turning it back on asks again. The extension does not read page content and only compares the current hostname with the user's chosen list.
+The user can add any website to a personal pause list. Access is requested when a domain is added or a saved site is turned on. If access is declined while adding a domain, it remains listed but off. No host access is granted at install time. Access is revoked when a site is removed or turned off; turning it back on asks again. The extension does not read page content and only compares the current hostname with the user's chosen list.
 
 ## Data usage disclosure
 
@@ -125,7 +125,7 @@ Recommended order: greeting, breathing timer, fact, check-in, first-run disclosu
 2. Confirm these URLs load:
    - https://asef-mahir.github.io/intermission/
    - https://asef-mahir.github.io/intermission/privacy.html
-3. Run `node scripts/build.js` and confirm the ZIP is `dist/intermission-1.0.1.zip`.
+3. Run `node scripts/build.js` and confirm the ZIP is `dist/intermission-1.0.2.zip`.
 4. Upload the ZIP in the Chrome Web Store developer dashboard.
 5. Paste the short and detailed descriptions, category, languages, and URLs.
 6. Upload the five screenshots, tile, and marquee.
