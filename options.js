@@ -10,10 +10,42 @@ const PRIVACY_URL = "https://asef-mahir.github.io/intermission/privacy.html";
 let settings;
 let copy;
 let firstRunVisible = false;
+let permissionStatusByDomain = new Map();
+let grantAccessBusy = false;
+let addSiteBusy = false;
+let formMessageState = null;
+const pendingSiteOperations = new Map();
 
 function setPermissionMessage(message, text, state) {
   message.textContent = text;
   message.dataset.state = state;
+}
+
+function renderFormMessage() {
+  const message = document.querySelector("#form-message");
+  if (!message) return;
+  if (!formMessageState || !copy?.settings) {
+    message.textContent = "";
+    message.dataset.state = "";
+    return;
+  }
+  const template = copy.settings[formMessageState.key] || "";
+  message.textContent = formMessageState.site
+    ? template.replace("{site}", formMessageState.site)
+    : template;
+  message.dataset.state = formMessageState.state;
+}
+
+function setFormMessage(key, site, state) {
+  formMessageState = { key, site, state };
+  renderFormMessage();
+}
+
+function sameSettingValue(first, second) {
+  if (Array.isArray(first) && Array.isArray(second)) {
+    return first.length === second.length && first.every((value, index) => value === second[index]);
+  }
+  return first === second;
 }
 
 function originsFor(domain) {
@@ -22,6 +54,26 @@ function originsFor(domain) {
 
 function originsForAll(domains) {
   return domains.flatMap(originsFor);
+}
+
+async function revokeSiteAccess(domain) {
+  try {
+    await chrome.permissions.remove({ origins: originsFor(domain) });
+    // Chrome can resolve without removing (for example when a broader grant
+    // still covers the site), so verify before telling the user it is gone.
+    return !(await chrome.permissions.contains({ origins: originsFor(domain) }));
+  } catch (error) {
+    console.error("Focus Friend could not revoke site access:", error);
+    return false;
+  }
+}
+
+function syncSiteRow(domain) {
+  const row = [...document.querySelectorAll("#site-list .site-row")]
+    .find((candidate) => candidate.dataset.domain === domain);
+  if (!row) return;
+  const toggle = row.querySelector(".site-name input");
+  if (toggle) toggle.checked = settings.enabled_sites.includes(domain);
 }
 
 async function loadCopy(language) {
@@ -84,31 +136,46 @@ async function render() {
   });
 
   renderSites(text);
+  renderFormMessage();
   void updatePermissionStatus();
 }
 
 async function updatePermissionStatus() {
   const message = document.querySelector("#permission-message");
-  if (!message) return;
-  if (!settings?.enabled_sites?.length) {
-    setPermissionMessage(message, "", "");
-    return;
-  }
-
+  if (!settings || !copy) return null;
   try {
-    const permissionStates = await Promise.all(settings.enabled_sites.map(async (domain) => ({
+    const enabledSites = [...(settings?.enabled_sites || [])];
+    const permissionStates = await Promise.all(enabledSites.map(async (domain) => ({
       domain,
       granted: await chrome.permissions.contains({ origins: originsFor(domain) })
     })));
-    const missing = permissionStates.filter((site) => !site.granted).map((site) => site.domain);
-    setPermissionMessage(
-      message,
-      missing.length
-        ? copy.settings.permissionNeeded.replace("{sites}", missing.join(", "))
-        : copy.settings.permissionGranted,
-      missing.length ? "error" : "success"
-    );
-  } catch (_) {}
+    const permissionByDomain = new Map(permissionStates.map((site) => [site.domain, site.granted]));
+    permissionStatusByDomain = permissionByDomain;
+    const missing = permissionStates.some((site) => !site.granted);
+
+    document.querySelectorAll("#site-list .site-row").forEach((row) => {
+      const domain = row.dataset.domain;
+      const isSelected = enabledSites.includes(domain);
+      const needsAccess = isSelected && !permissionByDomain.get(domain);
+      const status = row.querySelector(".site-access-status");
+      const toggle = row.querySelector(".site-name input");
+      status.hidden = !needsAccess;
+      row.classList.toggle("has-access-status", needsAccess);
+      if (needsAccess) toggle.setAttribute("aria-describedby", status.id);
+      else toggle.removeAttribute("aria-describedby");
+    });
+
+    if (message) {
+      setPermissionMessage(
+        message,
+        missing ? copy.settings.permissionNeeded : "",
+        missing ? "error" : ""
+      );
+    }
+    return missing;
+  } catch (_) {
+    return null;
+  }
 }
 
 function renderSites(text) {
@@ -118,6 +185,10 @@ function renderSites(text) {
   for (const domain of settings.sites) {
     const row = document.createElement("li");
     row.className = "site-row";
+    row.dataset.domain = domain;
+
+    const siteDetails = document.createElement("div");
+    siteDetails.className = "site-details";
 
     const label = document.createElement("label");
     label.className = "site-name";
@@ -127,116 +198,202 @@ function renderSites(text) {
     toggle.checked = settings.enabled_sites.includes(domain);
     toggle.setAttribute("aria-label", `${text.toggleSite} ${domain}`);
     toggle.addEventListener("change", async () => {
-      const message = document.querySelector("#permission-message");
-
-      if (toggle.checked) {
-        // Ask for this site's access while the click is still a user gesture.
-        let granted = false;
-        try {
-          granted = await chrome.permissions.request({ origins: originsFor(domain) });
-        } catch (error) {
-          console.error("Focus Friend permission request failed:", error);
-        }
-
-        if (!granted) {
-          toggle.checked = false;
-          setPermissionMessage(message, text.permissionToggleDenied, "error");
-          return;
-        }
-
-        settings.enabled_sites = [...new Set([...settings.enabled_sites, domain])];
-        await FocusStorage.saveSettings(settings);
-        setPermissionMessage(message, text.permissionGranted, "success");
+      if (pendingSiteOperations.has(domain)) {
+        // A click during an in-flight change should not start a second
+        // operation. Put the box back to the state that operation is applying.
+        toggle.checked = pendingSiteOperations.get(domain);
         return;
       }
 
-      // Turning a site off also gives back its host access.
-      settings.enabled_sites = settings.enabled_sites.filter((site) => site !== domain);
-      await FocusStorage.saveSettings(settings);
+      const targetEnabled = toggle.checked;
+      pendingSiteOperations.set(domain, targetEnabled);
+      const row = toggle.closest(".site-row");
+      row?.setAttribute("aria-busy", "true");
+
       try {
-        await chrome.permissions.remove({ origins: originsFor(domain) });
-      } catch (error) {
-        console.error("Focus Friend could not revoke site access:", error);
+        if (targetEnabled) {
+          // Ask for this site's access while the click is still a user gesture.
+          let granted = false;
+          let requestFailed = false;
+          try {
+            granted = await chrome.permissions.request({ origins: originsFor(domain) });
+          } catch (error) {
+            requestFailed = true;
+            console.error("Focus Friend permission request failed:", error);
+          }
+
+          if (!granted) {
+            toggle.checked = false;
+            syncSiteRow(domain);
+            setFormMessage(
+              requestFailed ? "permissionRequestError" : "permissionToggleDenied",
+              null,
+              "error"
+            );
+            return;
+          }
+
+          settings.enabled_sites = [...new Set([...settings.enabled_sites, domain])];
+          syncSiteRow(domain);
+          await FocusStorage.saveSettings(settings);
+          await updatePermissionStatus();
+          setFormMessage("siteAccessGranted", domain, "success");
+          return;
+        }
+
+        // Save the off state first so the pause stops immediately, then verify
+        // that Chrome really released the host access.
+        settings.enabled_sites = settings.enabled_sites.filter((site) => site !== domain);
+        syncSiteRow(domain);
+        await FocusStorage.saveSettings(settings);
+        const removed = await revokeSiteAccess(domain);
+        await updatePermissionStatus();
+        setFormMessage(
+          removed ? "siteAccessRemoved" : "siteAccessRemovePartial",
+          domain,
+          removed ? "success" : "error"
+        );
+      } finally {
+        pendingSiteOperations.delete(domain);
+        row?.removeAttribute("aria-busy");
       }
-      setPermissionMessage(message, text.permissionRevoked, "success");
     });
 
-    const name = document.createElement("span");
-    name.textContent = domain;
-    label.append(toggle, name);
+    const domainName = document.createElement("span");
+    domainName.className = "site-domain";
+    domainName.textContent = domain;
+
+    const accessStatus = document.createElement("span");
+    accessStatus.className = "site-access-status";
+    accessStatus.id = `site-access-status-${settings.sites.indexOf(domain)}`;
+    accessStatus.hidden = true;
+
+    accessStatus.textContent = text.sitePermissionMissing;
+
+    label.append(toggle, domainName);
+    siteDetails.append(label);
 
     const remove = document.createElement("button");
     remove.type = "button";
     remove.className = "remove-button";
     remove.textContent = text.removeButton;
     remove.addEventListener("click", async () => {
-      settings.sites = settings.sites.filter((site) => site !== domain);
-      settings.enabled_sites = settings.enabled_sites.filter((site) => site !== domain);
-      await FocusStorage.saveSettings(settings);
+      if (pendingSiteOperations.has(domain)) return;
+      pendingSiteOperations.set(domain, settings.enabled_sites.includes(domain));
+      const row = remove.closest(".site-row");
+      row?.setAttribute("aria-busy", "true");
+
       try {
-        await chrome.permissions.remove({ origins: originsFor(domain) });
-      } catch (error) {
-        console.error("Focus Friend could not revoke site access:", error);
+        // Only delete the row after Chrome confirms the access is gone.
+        const removed = await revokeSiteAccess(domain);
+        if (!removed) {
+          setFormMessage("siteRemoveFailed", domain, "error");
+          return;
+        }
+
+        settings.sites = settings.sites.filter((site) => site !== domain);
+        settings.enabled_sites = settings.enabled_sites.filter((site) => site !== domain);
+        await FocusStorage.saveSettings(settings);
+        formMessageState = null;
+        await render();
+      } finally {
+        pendingSiteOperations.delete(domain);
+        row?.removeAttribute("aria-busy");
       }
-      await render();
     });
 
-    row.append(label, remove);
+    row.append(siteDetails, accessStatus, remove);
     list.append(row);
   }
 }
 
 document.querySelector("#add-site-form").addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (addSiteBusy) return;
   const input = document.querySelector("#site-input");
-  const message = document.querySelector("#form-message");
   const domain = FocusStorage.normalizeDomain(input.value);
 
   if (!domain) {
-    message.textContent = copy.settings.invalidDomain;
+    setFormMessage("invalidDomain", null, "error");
     return;
   }
   if (settings.sites.includes(domain)) {
-    message.textContent = copy.settings.duplicateDomain;
+    setFormMessage("duplicateDomain", null, "error");
     return;
   }
 
-  // Request access directly from the Add action so Chrome recognizes the
-  // request as a user gesture. Only mark the new site on if access is granted.
-  let accessGranted = false;
-  let accessRequestFailed = false;
-  try {
-    accessGranted = await chrome.permissions.request({ origins: originsFor(domain) });
-  } catch (error) {
-    accessRequestFailed = true;
-    console.error("Focus Friend permission request failed:", error);
-  }
+  addSiteBusy = true;
+  const button = document.querySelector("#add-button");
+  button.setAttribute("aria-busy", "true");
+  button.setAttribute("aria-disabled", "true");
 
-  settings.sites = [...settings.sites, domain];
-  settings.enabled_sites = accessGranted
-    ? [...new Set([...settings.enabled_sites, domain])]
-    : settings.enabled_sites.filter((site) => site !== domain);
-  await FocusStorage.saveSettings(settings);
-  input.value = "";
-  await render();
-  message.textContent = accessGranted
-    ? copy.settings.siteAddedAccessGranted
-    : accessRequestFailed
-      ? copy.settings.siteAddedAccessError
-      : copy.settings.siteAddedAccessDenied;
+  try {
+    // Request access directly from the Add action so Chrome recognizes the
+    // request as a user gesture. Only mark the new site on if access is granted.
+    let accessGranted = false;
+    let accessRequestFailed = false;
+    try {
+      accessGranted = await chrome.permissions.request({ origins: originsFor(domain) });
+    } catch (error) {
+      accessRequestFailed = true;
+      console.error("Focus Friend permission request failed:", error);
+    }
+
+    // Another tab may have added the domain while Chrome's prompt was open.
+    if (settings.sites.includes(domain)) {
+      setFormMessage("duplicateDomain", null, "error");
+      return;
+    }
+
+    settings.sites = [...settings.sites, domain];
+    settings.enabled_sites = accessGranted
+      ? [...new Set([...settings.enabled_sites, domain])]
+      : settings.enabled_sites.filter((site) => site !== domain);
+    await FocusStorage.saveSettings(settings);
+    input.value = "";
+    await render();
+    setFormMessage(
+      accessGranted
+        ? "siteAddedAccessGranted"
+        : accessRequestFailed
+          ? "siteAddedAccessError"
+          : "siteAddedAccessDenied",
+      domain,
+      accessGranted ? "success" : "error"
+    );
+  } finally {
+    addSiteBusy = false;
+    button.removeAttribute("aria-busy");
+    button.removeAttribute("aria-disabled");
+  }
 });
 
 document.querySelector("#grant-access-button").addEventListener("click", async () => {
+  if (grantAccessBusy) return;
   const message = document.querySelector("#permission-message");
-  const origins = originsForAll(settings.enabled_sites);
+  const button = document.querySelector("#grant-access-button");
+  const selectedSites = [...settings.enabled_sites];
 
-  if (!origins.length) {
+  if (!selectedSites.length) {
     setPermissionMessage(message, copy.settings.noEnabledSites, "error");
     return;
   }
 
+  const sitesNeedingAccess = selectedSites.filter((domain) => permissionStatusByDomain.get(domain) !== true);
+  if (!sitesNeedingAccess.length) {
+    setPermissionMessage(message, copy.settings.permissionAlreadyGranted, "success");
+    return;
+  }
+
+  grantAccessBusy = true;
+  button.setAttribute("aria-busy", "true");
+  button.setAttribute("aria-disabled", "true");
   try {
+    // Keep the permission request directly in the click handler so Chrome
+    // recognizes the user gesture. Only request sites currently missing access.
+    const origins = originsForAll(sitesNeedingAccess);
     const granted = await chrome.permissions.request({ origins });
+    await updatePermissionStatus();
     setPermissionMessage(
       message,
       granted ? copy.settings.permissionGranted : copy.settings.permissionDenied,
@@ -245,6 +402,10 @@ document.querySelector("#grant-access-button").addEventListener("click", async (
   } catch (error) {
     console.error("Focus Friend permission request failed:", error);
     setPermissionMessage(message, copy.settings.permissionRequestError, "error");
+  } finally {
+    grantAccessBusy = false;
+    button.removeAttribute("aria-busy");
+    button.removeAttribute("aria-disabled");
   }
 });
 
@@ -309,11 +470,26 @@ document.querySelector("#time-checkin-minutes").addEventListener("change", async
 
 chrome.storage.onChanged.addListener(async (changes, areaName) => {
   if (areaName !== "sync" || !settings) return;
-  if (["sites", "enabled_sites", "language", "enabled", "debounce_minutes", "continue_checkin_enabled", "time_checkin_enabled", "time_checkin_minutes"].some((key) => key in changes)) {
-    settings = await FocusStorage.getSettings();
-    await render();
+  const keys = ["sites", "enabled_sites", "language", "enabled", "debounce_minutes", "continue_checkin_enabled", "time_checkin_enabled", "time_checkin_minutes"];
+  const changedKeys = keys.filter((key) => key in changes);
+  if (!changedKeys.length) return;
+
+  // Saves made on this page echo back here. Rebuilding the list for those
+  // would steal keyboard focus from the checkbox the user just changed.
+  const isLocalEcho = changedKeys.every((key) =>
+    sameSettingValue(changes[key].newValue, settings[key])
+  );
+
+  settings = await FocusStorage.getSettings();
+  if (isLocalEcho) {
+    await updatePermissionStatus();
+    return;
   }
+  await render();
 });
+
+chrome.permissions.onAdded.addListener(() => void updatePermissionStatus());
+chrome.permissions.onRemoved.addListener(() => void updatePermissionStatus());
 
 (async function start() {
   let stored = {};

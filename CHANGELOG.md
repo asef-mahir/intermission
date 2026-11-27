@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.2 — 2026-11-25
+## 1.0.2 — 2026-11-28
 
 Keep site-level keyboard shortcuts from interfering with the vent writing area.
 
@@ -8,6 +8,11 @@ Keep site-level keyboard shortcuts from interfering with the vent writing area.
 - Preserve text entry, active-time tracking, and Tab-based overlay focus navigation.
 - Request access when a site is added; leave it unchecked if access is declined and show which selected sites still need access.
 - Update an already-visible active-time check-in when the extension language changes.
+- Verify that Chrome actually removed a site's permission before reporting success or deleting the row; if access remains, keep the site visible and explain how to retry.
+- Keep keyboard focus on the same site after toggling it, and re-localize action messages when the language changes.
+- Distinguish a failed permission request from a declined one.
+- Guard the "Allow access to selected sites" button against double-clicks with a busy flag; a second click while the Chrome permission dialog is open is now ignored.
+- Per-site rows show a **No access** status when a site is enabled but its permission was not granted or was later revoked.
 
 ## 1.0.1 — 2026-11-25
 
