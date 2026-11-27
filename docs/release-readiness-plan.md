@@ -3,7 +3,7 @@
 **Status:** Extension implementation and GitHub Pages are ready. GitHub Releases provides manual-install packages; Chrome Web Store submission remains paused. Version 1.0.2 isolates vent-room typing from host-page shortcuts, requests access when a site is added, verifies that removed access is really gone before deleting a site, keeps keyboard focus while toggling, and refreshes visible check-in and action copy when the language changes.
 **Target:** Chrome Web Store, public release.
 **Product name:** **Intermission**.
-**Current build:** `1.0.2` (working tree), packaged as `dist/intermission-1.0.2.zip`.
+**Current build:** `1.0.2` (published), packaged as `dist/intermission-1.0.2.zip`.
 **Last verified:** 2026-11-25 in an isolated Chrome 158 profile. The 2026-11-28 permission-UI changes were exercised in a stubbed Chromium harness covering grant, deny, request error, toggle on/off, removal failure, language switching, cross-tab updates, and double-submit; the real Chrome host-permission prompt still needs a manual check.
 
 > The line references in the issue descriptions below describe the original `0.1.0` build. Release hardening was completed in 1.0.0; 1.0.1 refined focus styling; 1.0.2 isolates vent textarea input from page-level shortcuts, aligns new-site checkboxes with permission grants, verifies permission removal before dropping a site, preserves keyboard focus on per-site toggles, and updates visible time-check-in and action copy when the language changes.
@@ -428,7 +428,7 @@ All decisions are resolved:
 - **D6** host access is revoked on per-site off/remove; implemented.
 - **REL-06**, **REL-07**, and **REL-11** are implemented.
 
-GitHub Releases provides versioned manual-install packages; `dist/` remains gitignored and ZIPs are attached to releases rather than committed into the source tree. The published v1.0.1 package is 303,038 bytes, contains 17 runtime files, and has SHA-256 `C0FBB5430D8CF7720D9256E71B059E8F0C97C61E415637A622E88F81CA39A72A`. The v1.0.2 candidate includes vent keyboard isolation, the clearer add-site permission flow, live language updates for the active-time check-in, verified permission removal before a site is deleted, keyboard-focus retention on toggles, re-localized action messages, and double-click guards on the Add and Allow-access buttons; it builds to 314,752 bytes (17 runtime files; SHA-256 `A4B4B921C6B7239CE960D718290E932F63CCA8DA7CE7334B008A43BEB7D98AE5`).
+GitHub Releases provides versioned manual-install packages; `dist/` remains gitignored and ZIPs are attached to releases rather than committed into the source tree. The published v1.0.1 package is 303,038 bytes, contains 17 runtime files, and has SHA-256 `C0FBB5430D8CF7720D9256E71B059E8F0C97C61E415637A622E88F81CA39A72A`. The published v1.0.2 package includes vent keyboard isolation, the clearer add-site permission flow, live language updates for the active-time check-in, verified permission removal before a site is deleted, keyboard-focus retention on toggles, re-localized action messages, and double-click guards on the Add and Allow-access buttons; it is 314,752 bytes (17 runtime files; SHA-256 `A4B4B921C6B7239CE960D718290E932F63CCA8DA7CE7334B008A43BEB7D98AE5`).
 
 Current distribution plan:
 
