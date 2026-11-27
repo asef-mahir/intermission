@@ -110,9 +110,10 @@ The build creates:
 
 To publish a future manual-install package after its source commit is pushed:
 
-1. In GitHub, open **Releases → Draft a new release** and create tag `v1.0.2` from the finalized `main` branch.
-2. Attach `dist/intermission-1.0.2.zip` as the release asset and publish the release.
-3. Keep `dist/` out of git; the ZIP belongs as a versioned release asset, not a source file.
+1. Bump the version in `manifest.json`, `package.json`, and `CHANGELOG.md`, then rebuild the package.
+2. In GitHub, open **Releases → Draft a new release** and create a tag matching the new version (for example, `v1.0.3`) from the finalized `main` branch.
+3. Attach `dist/intermission-<version>.zip` as the release asset and publish the release.
+4. Keep `dist/` out of git; the ZIP belongs as a versioned release asset, not a source file.
 
 The GitHub Release makes the package easy to find and keeps it tied to a version. Users still need to extract it and select the package folder with **Load unpacked**. Automatic browser installation and updates are available only if Intermission is later published in a browser extension store.
 
@@ -141,7 +142,7 @@ The validation checks the manifest and referenced files, JSON, icon dimensions, 
 
 ## Verification
 
-The 1.0.2 build has been tested in an isolated Chrome profile for the core pause flow, breathing, fact reveal, check-ins, language switching, keyboard focus handling, already-open tab injection, permission cleanup, fail-open behavior, strict-CSP rendering, and clean-profile package installation. The unpacked package has also been manually loaded and confirmed working in Brave.
+The 1.0.2 build has been tested in an isolated Chrome profile for the core pause flow, breathing, fact reveal, check-ins, language switching, keyboard focus handling, already-open tab injection, permission cleanup, fail-open behavior, strict-CSP rendering, and clean-profile package installation. The updated settings-page permission flows (grant, deny, removal failure, language switching, and focus retention) were additionally exercised in a browser test harness; the real Chrome host-permission prompt still needs a manual check. The unpacked package has also been manually loaded and confirmed working in Brave.
 
 ## Project links
 
